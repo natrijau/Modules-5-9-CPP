@@ -1,7 +1,38 @@
-#ifndef	BUREAUCRAT_HPP
-#define	BUREAUCRAT_HPP
+#ifndef	__BUREAUCRAT_HPP__
+#define	__BUREAUCRAT_HPP__
 
 #include <iostream>
+#include <exception>
+
+class	GradeTooHighException : public	std::exception
+{
+	private:
+
+		std::string	_message;
+
+	public:
+
+		GradeTooHighException() : _message("Range to hight. Maximum grade its 1"){};
+		const	char* what() const throw()
+		{
+        	return _message.c_str();
+    	};
+};
+
+class	GradeTooLowException : public	std::exception
+{
+	private:
+
+		std::string	_message;
+
+	public:
+
+		GradeTooLowException() : _message("Range to low. Minimum grade its 150"){};
+		const	char* what() const throw()
+		{
+        	return _message.c_str();
+    	};
+};
 
 class Bureaucrat
 {
@@ -20,14 +51,17 @@ class Bureaucrat
 		std::string	getName() const;
 		int			getGrade() const;
 
-		void	GradeTooHighException();
-		void	GradeTooLowException();
+		// GradeTooHighException* test;
+		// GradeTooLowException();
+		// void	GradeTooHighException();
+		// void	GradeTooLowException();
 
 		void decrementGrade();
 		void incrementGrade();
 
 		Bureaucrat &operator=(const Bureaucrat& other);
 };
+
 
 // Operator overload <<
 std::ostream& operator<<(std::ostream& os, const Bureaucrat& b);
