@@ -11,9 +11,19 @@ class	GradeTooHighException : public	std::exception
 		std::string	_message;
 
 	public:
-
+		// GradeTooHighException() throw();
 		GradeTooHighException() : _message("Range to hight. Maximum grade its 1"){};
-		const	char* what() const throw()
+		GradeTooHighException (const GradeTooHighException& copy) throw()
+		{
+			this->_message = copy._message;
+		};
+		virtual ~GradeTooHighException() throw(){};
+		GradeTooHighException &operator=(const GradeTooHighException& fix) throw()
+		{
+			this->_message = fix._message;
+			return (*this);
+		};
+		virtual const	char* what() const throw()
 		{
         	return _message.c_str();
     	};
@@ -28,7 +38,17 @@ class	GradeTooLowException : public	std::exception
 	public:
 
 		GradeTooLowException() : _message("Range to low. Minimum grade its 150"){};
-		const	char* what() const throw()
+		GradeTooLowException (const GradeTooLowException& copy) throw()
+		{
+			this->_message = copy._message;
+		};
+		virtual ~GradeTooLowException() throw(){};
+		GradeTooLowException &operator=(const GradeTooLowException& fix) throw()
+		{
+			this->_message = fix._message;
+			return (*this);
+		};
+		virtual const	char* what() const throw()
 		{
         	return _message.c_str();
     	};

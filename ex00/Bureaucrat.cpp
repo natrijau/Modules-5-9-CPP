@@ -65,11 +65,19 @@ int	Bureaucrat::getGrade() const
 void	Bureaucrat::decrementGrade()
 {
 	this->_range++;
+	if (_range < 1)
+		GradeTooHighException();
+	else if (_range > 150)
+		GradeTooLowException();
 }
 
 void	Bureaucrat::incrementGrade()
 {
 	this->_range--;
+	if (_range < 1)
+		GradeTooHighException();
+	else if (_range > 150)
+		GradeTooLowException();
 }
 
 // Assignment operator
