@@ -1,19 +1,23 @@
+EXEC = bureaucrat
 CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -g
-SRC = main.cpp Bureaucrat.cpp
-OBJ = $(SRC:.cpp=.o)
-EXEC = Bureaucrat
+OBJDIR = obj
+SRCDIR = src
+INCDIR = include/Bureaucrat.hpp
+SRC = $(SRCDIR)/main.cpp $(SRCDIR)/Bureaucrat.cpp
+OBJ = $(SRC:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
+
+$(EXEC): $(OBJ)
+	$(CXX) $(CXXFLAGS) $(OBJ) -o $@
+
+$(OBJDIR)/%.o: $(SRCDIR)/%.cpp $(INCDIR)
+	@mkdir -p $(OBJDIR)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 all: $(EXEC)
 
-$(EXEC): $(OBJ)
-	$(CXX) $(OBJ) -o $@
-
-%.o: %.cpp %.hpp
-	$(CXX) $(CXXFLAGS) -c $< -o $@
-
 clean:
-	rm -f $(OBJ)
+	rm -rf $(OBJDIR)
 
 fclean: clean
 	rm -f $(EXEC)
