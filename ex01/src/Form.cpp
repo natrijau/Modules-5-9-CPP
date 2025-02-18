@@ -1,59 +1,27 @@
 #include	"../include/Form.hpp"
 
 /*******************************************************/
-/********************* Exceptions **********************/
-/*******************************************************/
-
-class	Form::GradeTooLowException : public	std::exception
-{
-	private:
-		std::string _message;
-	public:
-		//GradeTooLowException(){};
-		GradeTooLowException(std::string name) : _message(name + " : note too low. Minimum rating is 150"){};
-		virtual ~GradeTooLowException() throw(){};
-		virtual const	char* what() const throw()
-		{
-			return (_message.c_str());
-        	//return (" : Range to low. Minimum grade its 150");
-    	};
-};
-
-class	Form::GradeTooHighException : public	std::exception
-{
-	private:
-		std::string _message;	
-	public:
-		//GradeTooHighException(){};
-		GradeTooHighException(std::string name) : _message(name + " : note too high. Maximum rating is 1"){};
-		virtual ~GradeTooHighException() throw(){};
-		virtual const	char* what() const throw()
-		{
-			return (_message.c_str());
-        	//return (" : Range to hight. Maximum grade its 1");
-    	};
-};
-
-/*******************************************************/
 /************** Constructors / Destructor **************/
 /*******************************************************/
 
-Form::Form() : _name("default"), _signed(false), _noteToSign(150), _noteToExec(150){};
+Form::Form() : _name("default"), _signed(false), _gradeToSign(150), _gradeToExec(150){};
 
-Form::Form(std::string name, int noteToSign, int noteToExec) : _name("default"), _signed(false), _noteToSign(noteToSign), _noteToExec(noteToExec){
+Form::Form(std::string name, int gradeToSign, int gradeToExec) : _name(name), _signed(false), _gradeToSign(gradeToSign), _gradeToExec(gradeToExec)
+{
 	std::cout << std::endl << "Constructor with params called" << std::endl;
-	if (_noteToSign < 1)
-		throw GradeTooHighException(this->getName());
-	else if (_noteToSign > 150)
-		throw GradeTooLowException(this->getName());
+	if (_gradeToSign < 1)
+		throw GradeTooHighException();
+	else if (_gradeToSign > 150)
+		throw GradeTooLowException();
 	
-	if (_noteToExec < 1)
-		throw GradeTooHighException(this->getName());
-	else if (_noteToExec > 150)
-		throw GradeTooLowException(this->getName());	
+	if (_gradeToExec < 1)
+		throw GradeTooHighException();
+	else if (_gradeToExec > 150)
+		throw GradeTooLowException();	
 }
 
-Form::Form(const Form &copy) : _name(copy.getName()), _signed(copy.getSigned()), _noteToSign(copy.getNote()), _noteToExec(copy.getNoteToExec()){
+Form::Form(const Form &copy)
+: _name(copy.getName()), _signed(copy.getSigned()), _gradeToSign(copy.getGradeToSign()), _gradeToExec(copy.getGradeToExec()){
 	std::cout << std::endl << "Constructor default Form called" << std::endl;
 }
 
@@ -73,12 +41,26 @@ bool Form::getSigned() const{
 	return (this->_signed);
 }
 
-int Form::getNote() const{
-	return (this->_noteToSign);
+int Form::getGradeToSign() const{
+	return (this->_gradeToSign);
 }
 
-int Form::getNote() const{
-	return (this->_noteToExec);
+int Form::getGradeToExec() const{
+	return (this->_gradeToExec);
+}
+
+/*******************************************************/
+/***************** member function *********************/
+/*******************************************************/
+
+void	Form::beSigned(Bureaucrat &bureaucrat)
+{
+	if (bureaucrat.getGrade() <= this->_gradeToSign)
+	{
+		this->_signed = true;
+	}
+	else
+		throw Form::GradeTooLowException();
 }
 
 /*******************************************************/
@@ -98,6 +80,6 @@ Form& Form::operator=(const Form& other)
 
 std::ostream& operator<<(std::ostream& os, const Form& b)
 {
-	os << b.getName() << ", Form grade : " << b.getGrade();
+	os << b.getName() << ", Form infos : " << b.getSigned() << ", " << b.getGradeToExec() << ", " << b.getSigned() << std::endl;
 	return (os);
 }
