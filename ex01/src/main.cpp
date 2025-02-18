@@ -11,7 +11,7 @@ void	copyForm(Form *toCopy)
 	}
 	catch(const std::exception& e)
 	{
-		std::cerr << e.what() << '\n';
+		std::cerr << e.what() << std::endl;
 	}
 }
 
@@ -25,7 +25,7 @@ void	signForm(int gradeToSign, int gradeToExec)
 	}
 	catch(const std::exception& e)
 	{
-		std::cerr << e.what() << '\n';
+		std::cerr << e.what() << std::endl;
 	}
 }
 
@@ -48,7 +48,7 @@ int     main(void)
 	}
 	catch(const std::exception& e)
 	{
-		std::cerr << e.what() << '\n';
+		std::cerr << e.what() << std::endl;
 	}
 	
 	delete(nathan);
