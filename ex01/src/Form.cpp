@@ -21,7 +21,9 @@ Form::Form(std::string name, int gradeToSign, int gradeToExec) : _name(name), _s
 }
 
 Form::Form(const Form &copy)
-: _name(copy.getName()), _signed(copy.getSigned()), _gradeToSign(copy.getGradeToSign()), _gradeToExec(copy.getGradeToExec()){
+: _name(copy.getName()), _signed(copy.getSigned()), _gradeToSign(copy.getGradeToSign()), _gradeToExec(copy.getGradeToExec())
+{
+	*this = copy;
 	std::cout << std::endl << "Constructor default Form called" << std::endl;
 }
 

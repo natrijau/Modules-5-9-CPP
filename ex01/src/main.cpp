@@ -1,27 +1,50 @@
 #include	"../include/Bureaucrat.hpp"
 
+void	copyForm(Form *toCopy)
+{
+	try
+	{
+		Form	copy(*toCopy);
+		Bureaucrat bureaucrat("Boo", 150);
+		delete(toCopy);
+		bureaucrat.signForm(copy);
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << e.what() << '\n';
+	}
+}
+
+void	signForm(int gradeToSign, int gradeToExec)
+{
+	try
+	{
+		Form	test("Form", gradeToSign, gradeToExec);
+		Bureaucrat	bureaucrat("Vegeta", 1);
+		bureaucrat.signForm(test);
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << e.what() << '\n';
+	}
+}
+
 int     main(void)
 {
 	Bureaucrat* nathan;
-	Bureaucrat* copyNathan;
 	Form*		test;
+
 	test = NULL;
 	nathan = NULL;
-	copyNathan = NULL;
 
 	try
 	{
-		test = new Form("impot", 15, 1);
-		Bureaucrat Yan("Yan", 150);
-		Bureaucrat copyYan(Yan);
-		//Yan.incrementGrade();
-		//copyYan.decrementGrade();
-		nathan = new Bureaucrat("Nathan", 150);
-		//nathan->incrementGrade();
-		nathan->signForm(*test);
-		//copyNathan = new Bureaucrat(*nathan);
-		//copyNathan->decrementGrade();
-		//nathan->incrementGrade();
+		signForm(150, 150);
+		signForm(1, 1);
+		signForm(0, 0);
+		signForm(151, 151);
+		test = new Form("impot", 1, 1);
+		copyForm(test);
 	}
 	catch(const std::exception& e)
 	{
@@ -29,7 +52,6 @@ int     main(void)
 	}
 	
 	delete(nathan);
-	delete(copyNathan);
 
 	return (0);
 }
