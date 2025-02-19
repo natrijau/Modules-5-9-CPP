@@ -9,13 +9,11 @@ class	Bureaucrat::GradeTooLowException : public	std::exception
 	private:
 		std::string _message;
 	public:
-		//GradeTooLowException(){};
 		GradeTooLowException(std::string name) : _message(name + " : Rating too low. Minimum rating is 150"){};
 		virtual ~GradeTooLowException() throw(){};
 		virtual const	char* what() const throw()
 		{
 			return (_message.c_str());
-        	//return (" : Range to low. Minimum grade its 150");
     	};
 };
 
@@ -24,13 +22,11 @@ class	Bureaucrat::GradeTooHighException : public	std::exception
 	private:
 		std::string _message;	
 	public:
-		//GradeTooHighException(){};
 		GradeTooHighException(std::string name) : _message(name + " : Rating too high. Maximum rating is 1"){};
 		virtual ~GradeTooHighException() throw(){};
 		virtual const	char* what() const throw()
 		{
 			return (_message.c_str());
-        	//return (" : Range to hight. Maximum grade its 1");
     	};
 };
 
@@ -39,16 +35,16 @@ class	Bureaucrat::GradeTooHighException : public	std::exception
 /*******************************************************/
 
 Bureaucrat::Bureaucrat() : _name("default"), _range(1) {
-	std::cout << std::endl << "Constructor default Bureaucrat called" << std::endl;
+	//std::cout << std::endl << "Constructor default Bureaucrat called" << std::endl;
 }
 
-Bureaucrat::Bureaucrat(const Bureaucrat &copy) : _name(copy._name), _range(copy._range) {
-	std::cout << std::endl << "Constructor copy called" << std::endl;
+Bureaucrat::Bureaucrat(const Bureaucrat &copy) : _name(copy.getName()), _range(copy.getGrade()) {
+	//std::cout << std::endl << "Constructor copy called" << std::endl;
 }
 
 Bureaucrat::Bureaucrat(std::string name, int range) : _name(name)
 {
-	std::cout << std::endl << "Constructor with params called" << std::endl;
+	//std::cout << std::endl << "Constructor with params called" << std::endl;
 	if (range < 1)
 		throw GradeTooHighException(this->getName());
 	else if (range > 150)
@@ -58,7 +54,7 @@ Bureaucrat::Bureaucrat(std::string name, int range) : _name(name)
 }
 
 Bureaucrat::~Bureaucrat() {
-	std::cout << std::endl << "Destructor Bureaucrat called" << std::endl;
+	//std::cout << std::endl << "Destructor Bureaucrat called" << std::endl;
 }
 
 /*******************************************************/
@@ -101,7 +97,6 @@ void	Bureaucrat::signForm(Form &form)
 	try
 	{
 		form.beSigned(*this);
-		std::cout << this->getName() << " signed " << form.getName() << std::endl;
 	}
 	catch(const std::exception& e)
 	{

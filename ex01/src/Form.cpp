@@ -8,7 +8,7 @@ Form::Form() : _name("default"), _signed(false), _gradeToSign(150), _gradeToExec
 
 Form::Form(std::string name, int gradeToSign, int gradeToExec) : _name(name), _signed(false), _gradeToSign(gradeToSign), _gradeToExec(gradeToExec)
 {
-	std::cout << std::endl << "Constructor with params called" << std::endl;
+	//std::cout << std::endl << "Constructor with params called" << std::endl;
 	if (_gradeToSign < 1)
 		throw GradeTooHighException();
 	else if (_gradeToSign > 150)
@@ -24,11 +24,11 @@ Form::Form(const Form &copy)
 : _name(copy.getName()), _signed(copy.getSigned()), _gradeToSign(copy.getGradeToSign()), _gradeToExec(copy.getGradeToExec())
 {
 	*this = copy;
-	std::cout << std::endl << "Constructor default Form called" << std::endl;
+	//std::cout << std::endl << "Constructor default Form called" << std::endl;
 }
 
 Form::~Form() {
-	std::cout << std::endl << "Destructor Form called" << std::endl;
+	//std::cout << std::endl << "Destructor Form called" << std::endl;
 }
 
 /*******************************************************/
@@ -59,7 +59,13 @@ void	Form::beSigned(Bureaucrat &bureaucrat)
 {
 	if (bureaucrat.getGrade() <= this->_gradeToSign)
 	{
+		if (this->_signed == true)
+		{
+			std::cout << this->getName() << " Form is already signed" << std::endl;
+			return;
+		}
 		this->_signed = true;
+		std::cout << bureaucrat.getName() << " signed " << this->getName() << std::endl;
 	}
 	else
 		throw Form::GradeTooLowException();
