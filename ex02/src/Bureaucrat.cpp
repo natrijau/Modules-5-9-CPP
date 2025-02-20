@@ -45,7 +45,7 @@ Bureaucrat::Bureaucrat(const Bureaucrat &copy) : _name(copy.getName()), _range(c
 Bureaucrat::Bureaucrat(std::string name, int range) : _name(name)
 {
 	//std::cout << std::endl << "Constructor with params called" << std::endl;
-	std::cout << RED << "Bureaucrat named " << this->getName() << " :" << std::endl << "\t grade -> " << range << RESET << std::endl;
+	std::cout << "Bureaucrat " << this->getName() << " :" << std::endl << "\t grade -> " << range << std::endl;
 	if (range < 1)
 		throw GradeTooHighException(this->getName());
 	else if (range > 150)
@@ -78,7 +78,7 @@ void	Bureaucrat::decrementGrade() {
 	if (_range < 150)
 	{
 		this->_range++;
-		std::cout << RED << this->getName() << " : New grade of " << this->getName() << "its " << this->getGrade() << RESET << std::endl;
+		std::cout << this->getName() << " : New grade of " << this->getName() << "its " << this->getGrade() << std::endl;
 	}
 	else
 		throw GradeTooLowException(this->getName());
@@ -87,7 +87,7 @@ void	Bureaucrat::decrementGrade() {
 void	Bureaucrat::incrementGrade() {
 	if (_range > 1) {
 		this->_range--;
-		std::cout << RED << this->getName() << " : New grade of " << this->getName() << " its " << this->getGrade() << RESET << std::endl;
+		std::cout << this->getName() << " : New grade of " << this->getName() << " its " << this->getGrade() << std::endl;
 	}
 	else
 		throw GradeTooHighException(this->getName());
@@ -97,13 +97,17 @@ void	Bureaucrat::signForm(Form &form)
 {
 	try
 	{
-		std::cout << RED << this->getName() << " try to sign the form named " << form.getName() << RESET << std::endl; 
 		form.beSigned(*this);
 	}
 	catch(const std::exception& e)
 	{
-		std::cerr << RED << this->getName() << " couldn’t sign " << form.getName() << " because " << e.what() << RESET << std::endl;
+		std::cerr << this->getName() << " couldn’t sign " << form.getName() << " because " << e.what() << std::endl;
 	}
+		
+	//if (form.getSigned() == false)
+		//std::cout << this->getName() << " signed " << form.getName() << std::endl;
+	//else
+		//std::cout << this->getName() << " couldn’t sign " << form.getName() << " because" << std::endl;
 }
 
 /*******************************************************/

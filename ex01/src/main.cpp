@@ -2,15 +2,22 @@
 
 static	int i = 1;
 
-void	copyForm(Form *toCopy)
+void	copyForm()
 {
-	std::cout << std::endl << i << " test in copyForm()" << std::endl;
+	Form*		toCopy;
+	toCopy = NULL;
+
+	std::cout << "/*******************************************************/" << std::endl;			
+	std::cout << "\t\t"<< i << " test in copyForm()" << std::endl;
+	std::cout << "/*******************************************************/" << std::endl;			
 	i++;
+	
 	try
 	{
+		toCopy = new Form("impot", 150, 1);
 		Form	copy(*toCopy);
-		Bureaucrat bureaucrat("Boo", 150);
 		delete(toCopy);
+		Bureaucrat bureaucrat("Boo", 150);
 		bureaucrat.signForm(copy);
 	}
 	catch(const std::exception& e)
@@ -21,13 +28,15 @@ void	copyForm(Form *toCopy)
 
 void	cantSign(int gradeToSign, int gradeToExec)
 {
-	std::cout << std::endl << i << " test in cantSign()" << std::endl;
+	std::cout << "/*******************************************************/" << std::endl;			
+	std::cout << "\t\t"<< i << " test in cantSign()" << std::endl;
+	std::cout << "/*******************************************************/" << std::endl;			
 	i++;
 	try
 	{
-		Form	test("Form", gradeToSign, gradeToExec);
+		Form	form("Form", gradeToSign, gradeToExec);
 		Bureaucrat	bureaucrat("BUuuu", 150);
-		bureaucrat.signForm(test);		
+		bureaucrat.signForm(form);		
 	}
 	catch(const std::exception& e)
 	{
@@ -37,13 +46,15 @@ void	cantSign(int gradeToSign, int gradeToExec)
 
 void	signForm(int gradeToSign, int gradeToExec)
 {
-	std::cout << std::endl << i << " test in signForm()" << std::endl;
+	std::cout << "/*******************************************************/" << std::endl;			
+	std::cout << "\t\t"<< i << " test in signForm()" << std::endl;
+	std::cout << "/*******************************************************/" << std::endl;			
 	i++;
 	try
 	{
-		Form	test("Form", gradeToSign, gradeToExec);
+		Form	form("Form", gradeToSign, gradeToExec);
 		Bureaucrat	bureaucrat("Vegeta", 1);
-		bureaucrat.signForm(test);
+		bureaucrat.signForm(form);
 	}
 	catch(const std::exception& e)
 	{
@@ -51,16 +62,19 @@ void	signForm(int gradeToSign, int gradeToExec)
 	}
 }
 
-void	alreadySigned(Form *toSign)
+void	alreadySigned()
 {
-	std::cout << std::endl << i << " test in alreadySigned()" << std::endl;
+	std::cout << "/*******************************************************/" << std::endl;			
+	std::cout << "\t\t"<< i << " test in alreadySigned() " << std::endl;
+	std::cout << "/*******************************************************/" << std::endl;			
 	i++;
+
 	try
 	{
-		Bureaucrat tmp("Temp", 1);
-		tmp.signForm(*toSign);
-		tmp.signForm(*toSign);
-		delete(toSign);
+		Form		form("Form", 1, 1);
+		Bureaucrat	bureaucrat("Vegeta", 1);
+		bureaucrat.signForm(form);
+		bureaucrat.signForm(form);
 	}
 	catch(const std::exception& e)
 	{
@@ -73,17 +87,19 @@ int     main(void)
 {
 	try
 	{
-		Form*		test;
-		test = NULL;
 		signForm(150, 150);
+		std::cout << std::endl;
 		signForm(1, 1);
+		std::cout << std::endl;
 		signForm(0, 0);
+		std::cout << std::endl;
 		signForm(151, 151);
+		std::cout << std::endl;
 		cantSign(1, 1);
-		test = new Form("impot", 150, 1);
-		copyForm(test);
-		test = new Form("impot", 1, 1);
-		alreadySigned(test);
+		std::cout << std::endl;
+		copyForm();
+		std::cout << std::endl;
+		alreadySigned();
 	}
 	catch(const std::exception& e)
 	{

@@ -1,8 +1,5 @@
 #ifndef	__BUREAUCRAT_HPP__
 #define	__BUREAUCRAT_HPP__
-#define RESET   "\033[0m"
-#define RED     "\033[31m"
-#define GREEN   "\033[32m"
 
 #include <iostream>
 #include <exception>

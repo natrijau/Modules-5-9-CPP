@@ -32,7 +32,7 @@ class Form
 		{
 			public:
 				virtual const	char* what() const throw(){
-					return ( GREEN "_gradeToSign is too low" RESET);
+					return ("_gradeToSign is too low");
 				};
 		};
 		
@@ -40,7 +40,7 @@ class Form
 		{
 			public:
 				virtual const	char* what() const throw(){
-					return ( GREEN "_gradeToSign is too hight" RESET);
+					return ("_gradeToSign is too hight");
 				};
 		};
 
