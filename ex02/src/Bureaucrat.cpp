@@ -93,7 +93,7 @@ void	Bureaucrat::incrementGrade() {
 		throw GradeTooHighException(this->getName());
 }
 
-void	Bureaucrat::signForm(Form &form)
+void	Bureaucrat::signForm(AForm &form)
 {
 	try
 	{

@@ -1,15 +1,15 @@
-#ifndef	__FORM_HPP__
-#define	__FORM_HPP__
+#ifndef	__AFORM_HPP__
+#define	__AFORM_HPP__
 
-#include <iostream>
-#include <exception>
+#include 	<iostream>
+#include 	<exception>
 #include	"Bureaucrat.hpp"
 
 class Bureaucrat;
 
-class Form 
+class AForm 
 {
-	private:
+	protected:
 
 		const std::string 	_name;
 		bool				_signed;
@@ -18,10 +18,10 @@ class Form
 
 	public:
 
-		Form();
-		Form(std::string name, int gradeToSign, int gradeToExec);
-		Form(const Form& copy);
-		~Form();
+		AForm();
+		AForm(std::string name, int gradeToSign, int gradeToExec);
+		AForm(const AForm& copy);
+		virtual ~AForm();
 
 		const std::string getName() const;
 		bool getSigned() const;
@@ -32,7 +32,7 @@ class Form
 		{
 			public:
 				virtual const	char* what() const throw(){
-					return ("_gradeToSign is too low");
+					return ("grade is too low");
 				};
 		};
 		
@@ -40,15 +40,15 @@ class Form
 		{
 			public:
 				virtual const	char* what() const throw(){
-					return ("_gradeToSign is too hight");
+					return ("grade is too hight");
 				};
 		};
 
 		void	beSigned(Bureaucrat& bureaucrat);
 
-		Form	&operator=(const Form& other);
+		AForm	&operator=(const AForm& other);
 };
 	
-std::ostream&	operator<<(std::ostream& os, const Form& other);
+std::ostream&	operator<<(std::ostream& os, const AForm& other);
 
 #endif

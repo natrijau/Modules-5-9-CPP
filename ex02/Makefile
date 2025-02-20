@@ -3,8 +3,8 @@ CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -g
 OBJDIR = obj
 SRCDIR = src
-INCDIR = include/Bureaucrat.hpp include/Form.hpp
-SRC = $(SRCDIR)/main.cpp $(SRCDIR)/Bureaucrat.cpp $(SRCDIR)/Form.cpp
+INCDIR = include/Bureaucrat.hpp include/AForm.hpp include/RobotomyRequestForm.hpp include/ShrubberyCreationForm.hpp include/PresidentialPardonForm.hpp
+SRC = $(SRCDIR)/main.cpp $(SRCDIR)/Bureaucrat.cpp $(SRCDIR)/AForm.cpp $(SRCDIR)/RobotomyRequestForm.cpp $(SRCDIR)/ShrubberyCreationForm.cpp $(SRCDIR)/PresidentialPardonForm.cpp
 OBJ = $(SRC:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
 
 $(EXEC): $(OBJ)

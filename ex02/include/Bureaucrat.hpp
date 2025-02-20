@@ -3,9 +3,9 @@
 
 #include <iostream>
 #include <exception>
-#include	"Form.hpp"
+#include	"AForm.hpp"
 
-class Form;
+class AForm;
 
 class Bureaucrat
 {
@@ -29,7 +29,7 @@ class Bureaucrat
 
 		void	decrementGrade();
 		void	incrementGrade();
-		void	signForm(Form &form);
+		void	signForm(AForm &form);
 
 		Bureaucrat	&operator=(const Bureaucrat& other);
 };
