@@ -3,6 +3,7 @@
 
 #include 	<iostream>
 #include 	<exception>
+#include 	<fstream>
 #include	"Bureaucrat.hpp"
 
 class Bureaucrat;
@@ -22,7 +23,7 @@ class ShrubberyCreationForm : public	AForm
 
 		const std::string getTarget() const;
 
-		void	execute(Bureaucrat& bureaucrat);
+		void	execute(Bureaucrat const & executor) const;
 
 		ShrubberyCreationForm	&operator=(const ShrubberyCreationForm& other);
 };

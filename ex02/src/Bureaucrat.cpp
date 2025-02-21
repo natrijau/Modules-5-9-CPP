@@ -103,12 +103,8 @@ void	Bureaucrat::signForm(AForm &form)
 	{
 		std::cerr << this->getName() << " couldn’t sign " << form.getName() << " because " << e.what() << std::endl;
 	}
-		
-	//if (form.getSigned() == false)
-		//std::cout << this->getName() << " signed " << form.getName() << std::endl;
-	//else
-		//std::cout << this->getName() << " couldn’t sign " << form.getName() << " because" << std::endl;
 }
+
 
 /*******************************************************/
 /*************** Assignment operator *******************/

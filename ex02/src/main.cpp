@@ -1,42 +1,24 @@
 #include	"../include/Bureaucrat.hpp"	
+#include	"../include/RobotomyRequestForm.hpp"	
+#include	"../include/PresidentialPardonForm.hpp"	
+#include	"../include/ShrubberyCreationForm.hpp"	
 
 static	int i = 1;
 
-void	copyForm()
-{
-	AForm*		toCopy;
-	toCopy = NULL;
-
-	std::cout << "/*******************************************************/" << std::endl;			
-	std::cout << "\t\t"<< i << " test in copyForm()" << std::endl;
-	std::cout << "/*******************************************************/" << std::endl;			
-	i++;
-	
-	try
-	{
-		toCopy = new AForm("impot", 150, 1);
-		AForm	copy(*toCopy);
-		delete(toCopy);
-		Bureaucrat bureaucrat("Boo", 150);
-		bureaucrat.signForm(copy);
-	}
-	catch(const std::exception& e)
-	{
-		std::cerr << e.what() << std::endl;
-	}
-}
-
-void	cantSign(int gradeToSign, int gradeToExec)
+void	robotization()
 {
 	std::cout << "/*******************************************************/" << std::endl;			
-	std::cout << "\t\t"<< i << " test in cantSign()" << std::endl;
+	std::cout << "\t\t"<< i << " test in robotization()" << std::endl;
 	std::cout << "/*******************************************************/" << std::endl;			
-	i++;
+	i++;	
 	try
 	{
-		AForm	form("Form", gradeToSign, gradeToExec);
-		Bureaucrat	bureaucrat("BUuuu", 150);
-		bureaucrat.signForm(form);		
+		RobotomyRequestForm president("Bender");
+		Bureaucrat bureaucrat("Homer", 72);
+		bureaucrat.signForm(president);
+		president.execute(bureaucrat);
+		president.execute(bureaucrat);
+		president.execute(bureaucrat);
 	}
 	catch(const std::exception& e)
 	{
@@ -44,62 +26,53 @@ void	cantSign(int gradeToSign, int gradeToExec)
 	}
 }
 
-void	signForm(int gradeToSign, int gradeToExec)
+void	Shrubbery()
 {
 	std::cout << "/*******************************************************/" << std::endl;			
-	std::cout << "\t\t"<< i << " test in signForm()" << std::endl;
+	std::cout << "\t\t"<< i << " test in Shrubbery()" << std::endl;
 	std::cout << "/*******************************************************/" << std::endl;			
 	i++;
 	try
 	{
-		AForm	form("Form", gradeToSign, gradeToExec);
-		Bureaucrat	bureaucrat("Vegeta", 1);
-		bureaucrat.signForm(form);
-	}
-	catch(const std::exception& e)
-	{
-		std::cerr << e.what() << std::endl;
-	}
-}
-
-void	alreadySigned()
-{
-	std::cout << "/*******************************************************/" << std::endl;			
-	std::cout << "\t\t"<< i << " test in alreadySigned() " << std::endl;
-	std::cout << "/*******************************************************/" << std::endl;			
-	i++;
-
-	try
-	{
-		AForm		form("Form", 1, 1);
-		Bureaucrat	bureaucrat("Vegeta", 1);
-		bureaucrat.signForm(form);
-		bureaucrat.signForm(form);
+		ShrubberyCreationForm president("Michel Dumas");
+		Bureaucrat bureaucrat("Kong", 1);
+		bureaucrat.signForm(president);
+		president.execute(bureaucrat);
 	}
 	catch(const std::exception& e)
 	{
 		std::cerr << e.what() << '\n';
 	}
-	
+}
+
+void	PardonFom()
+{
+	std::cout << "/*******************************************************/" << std::endl;			
+	std::cout << "\t\t"<< i << " test in PardonFom()" << std::endl;
+	std::cout << "/*******************************************************/" << std::endl;			
+	i++;
+	try
+	{
+		PresidentialPardonForm president("Michel Dumas");
+		Bureaucrat bureaucrat("Kong", 1);
+		bureaucrat.signForm(president);
+		president.execute(bureaucrat);
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << e.what() << '\n';
+	}
 }
 
 int     main(void)
 {
 	try
 	{
-		signForm(150, 150);
+		PardonFom();
 		std::cout << std::endl;
-		signForm(1, 1);
+		Shrubbery();
 		std::cout << std::endl;
-		signForm(0, 0);
-		std::cout << std::endl;
-		signForm(151, 151);
-		std::cout << std::endl;
-		cantSign(1, 1);
-		std::cout << std::endl;
-		copyForm();
-		std::cout << std::endl;
-		alreadySigned();
+		robotization();
 	}
 	catch(const std::exception& e)
 	{

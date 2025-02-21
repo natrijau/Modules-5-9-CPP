@@ -1,58 +1,79 @@
-#include	"../include/PresidentialPardonForm.hpp"
+#include	"../include/RobotomyRequestForm.hpp"
 
 /*******************************************************/
 /************** Constructors / Destructor **************/
 /*******************************************************/
 
-PresidentialPardonForm::PresidentialPardonForm() : AForm("PresidentialPardonForm", 72, 45), _target("default"){
-	//std::cout << "Default Constructor PresidentialPardonForm called" << std::endl;
+RobotomyRequestForm::RobotomyRequestForm() : AForm("RobotomyRequestForm", 72, 45), _target("default"){
+	//std::cout << "Default Constructor RobotomyRequestForm called" << std::endl;
 };
 
-PresidentialPardonForm::PresidentialPardonForm(std::string target) : AForm("PresidentialPardonForm", 25, 5), _target(target){
+RobotomyRequestForm::RobotomyRequestForm(std::string target) : AForm("RobotomyRequestForm", 72, 45), _target(target){
 	//std::cout << "Constructor with target called. target :" << this.getTarget() << std::endl;
 }
 
-PresidentialPardonForm::PresidentialPardonForm(const PresidentialPardonForm &copy) : AForm("PresidentialPardonForm", 25, 5), _target(copy.getTarget())
+RobotomyRequestForm::RobotomyRequestForm(const RobotomyRequestForm &copy) : AForm("RobotomyRequestForm", 72, 45), _target(copy.getTarget())
 {
-	//std::cout << std::endl << "Constructor copy PresidentialPardonForm called" << std::endl;
+	//std::cout << std::endl << "Constructor copy RobotomyRequestForm called" << std::endl;
 	*this = copy;
 }
 
-PresidentialPardonForm::~PresidentialPardonForm() {
-	//std::cout << std::endl << "Destructor PresidentialPardonForm called" << std::endl;
+RobotomyRequestForm::~RobotomyRequestForm() {
+	//std::cout << std::endl << "Destructor RobotomyRequestForm called" << std::endl;
 }
 
 /*******************************************************/
 /********************* Getters *************************/
 /*******************************************************/
 
-const std::string PresidentialPardonForm::getTarget() const{
+const std::string RobotomyRequestForm::getTarget() const{
 	return (this->_target);
 }
 /*******************************************************/
 /***************** member function *********************/
 /*******************************************************/
 
-void PresidentialPardonForm::execute(Bureaucrat &bureaucrat)
+
+#include <unistd.h>
+
+static int half = 0;
+
+void RobotomyRequestForm::execute(const Bureaucrat &executor) const
 {
-	if (bureaucrat.getGrade() <= this->_gradeToExec)
+	if (this->_signed == false)
 	{
-		if (this->_signed == false)
-		{
-			std::cout << this->getName() << " is not signed" << std::endl;
-			return;
-		}
-		std::cout << this->_target << " has been pardoned by Zaphod Beeblebrox" << std::endl;
+		std::cout << this->getName() << " is not signed" << std::endl;
+		return;
+	}
+	if (executor.getGrade() <= this->_gradeToExec)
+	{
+		std::cout << "robotization in progress " <<  std::flush;
+		std::cout << "." << std::flush;
+		sleep(1);
+		std::cout << "." << std::flush;
+		sleep(1);
+		std::cout << "." << std::endl;
+		sleep(1);
+		std::cout << "VRRRRIIIIII" << std::endl;
+		sleep(1);
+		std::cout << "TAC-TAC-TAC-TAC" << std::endl;
+		sleep(1);
+		std::cout << "VRRRRIIIIII" << std::endl;
+		sleep(1);
+		if (half++ % 2 == 0)
+			std::cout << this->getTarget() << " was robotomized" << std::endl;
+		else
+			std::cout << this->getTarget() << "'s romobization failed" << std::endl;
 	}
 	else
-		throw PresidentialPardonForm::GradeTooLowException();
+		throw RobotomyRequestForm::GradeTooLowException();
 }
 
 /*******************************************************/
 /*************** Assignment operator *******************/
 /*******************************************************/
 
-PresidentialPardonForm& PresidentialPardonForm::operator=(const PresidentialPardonForm& other)
+RobotomyRequestForm& RobotomyRequestForm::operator=(const RobotomyRequestForm& other)
 {
 	if (this != &other)
 		this->_signed = other.getSigned();
@@ -63,8 +84,8 @@ PresidentialPardonForm& PresidentialPardonForm::operator=(const PresidentialPard
 /*************** Operator overload << *****************/
 /*******************************************************/
 
-std::ostream& operator<<(std::ostream& os, const PresidentialPardonForm& b)
+std::ostream& operator<<(std::ostream& os, const RobotomyRequestForm& b)
 {
-	os << b.getName() << ", PresidentialPardonForm infos : " << b.getSigned() << ", " << b.getGradeToExec() << ", " << b.getSigned() << std::endl;
+	os << b.getName() << ", RobotomyRequestForm infos : " << b.getSigned() << ", " << b.getGradeToExec() << ", " << b.getSigned() << std::endl;
 	return (os);
 }

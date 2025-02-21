@@ -8,11 +8,11 @@ ShrubberyCreationForm::ShrubberyCreationForm() : AForm("ShrubberyCreationForm", 
 	//std::cout << "Default Constructor ShrubberyCreationForm called" << std::endl;
 };
 
-ShrubberyCreationForm::ShrubberyCreationForm(std::string target) : AForm("ShrubberyCreationForm", 25, 5), _target(target){
+ShrubberyCreationForm::ShrubberyCreationForm(std::string target) : AForm("ShrubberyCreationForm", 145, 137), _target(target){
 	//std::cout << "Constructor with target called. target :" << this.getTarget() << std::endl;
 }
 
-ShrubberyCreationForm::ShrubberyCreationForm(const ShrubberyCreationForm &copy) : AForm("ShrubberyCreationForm", 25, 5), _target(copy.getTarget())
+ShrubberyCreationForm::ShrubberyCreationForm(const ShrubberyCreationForm &copy) : AForm("ShrubberyCreationForm", 145, 137), _target(copy.getTarget())
 {
 	//std::cout << std::endl << "Constructor copy ShrubberyCreationForm called" << std::endl;
 	*this = copy;
@@ -33,16 +33,32 @@ const std::string ShrubberyCreationForm::getTarget() const{
 /***************** member function *********************/
 /*******************************************************/
 
-void ShrubberyCreationForm::execute(Bureaucrat &bureaucrat)
+void ShrubberyCreationForm::execute(const Bureaucrat &executor) const
 {
-	if (bureaucrat.getGrade() <= this->_gradeToExec)
+	if (this->_signed == false)
 	{
-		if (this->_signed == false)
-		{
-			std::cout << this->getName() << " is not signed" << std::endl;
-			return;
-		}
-		std::cout << this->_target << " has been pardoned by Zaphod Beeblebrox" << std::endl;
+		std::cout << this->getName() << " is not signed" << std::endl;
+		return;
+	}
+	if (executor.getGrade() <= this->_gradeToExec)
+	{
+		std::ofstream file((this->getTarget() + "_shrubbery").c_str());
+		if (!file)
+			std::cerr << "Error creating file!" << std::endl;
+		file	<< "       *       " << std::endl
+				<< "      ***             *       " << std::endl
+				<< "     *****           ***      " << std::endl
+				<< "    *******         *****     " << std::endl
+				<< "   *********       *******    " << std::endl
+				<< "  ***********        |||      " << std::endl
+				<< " ************* " << std::endl
+				<< "      |||      " << std::endl
+				<< "      |||      *" << std::endl
+				<< "              ***      " << std::endl
+				<< "             *****     " << std::endl
+				<< "              |||      " << std::endl;
+		file.close();
+		std::cout << "Shrubbery created at " << this->getTarget() + "_shrubbery" << std::endl;
 	}
 	else
 		throw ShrubberyCreationForm::GradeTooLowException();

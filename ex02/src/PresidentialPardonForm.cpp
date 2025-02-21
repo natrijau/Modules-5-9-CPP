@@ -29,21 +29,20 @@ PresidentialPardonForm::~PresidentialPardonForm() {
 const std::string PresidentialPardonForm::getTarget() const{
 	return (this->_target);
 }
+
 /*******************************************************/
 /***************** member function *********************/
 /*******************************************************/
 
-void PresidentialPardonForm::execute(Bureaucrat &bureaucrat)
+void PresidentialPardonForm::execute(const Bureaucrat &executor) const
 {
-	if (bureaucrat.getGrade() <= this->_gradeToExec)
+	if (this->_signed == false)
 	{
-		if (this->_signed == false)
-		{
-			std::cout << this->getName() << " is not signed" << std::endl;
-			return;
-		}
-		std::cout << this->_target << " has been pardoned by Zaphod Beeblebrox" << std::endl;
+		std::cout << this->getName() << " is not signed" << std::endl;
+		return;
 	}
+	else if (executor.getGrade() <= this->_gradeToExec)
+		std::cout << this->_target << " has been pardoned by Zaphod Beeblebrox" << std::endl;
 	else
 		throw PresidentialPardonForm::GradeTooLowException();
 }

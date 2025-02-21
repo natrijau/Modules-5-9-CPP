@@ -22,7 +22,7 @@ class RobotomyRequestForm : public	AForm
 
 		const std::string getTarget() const;
 
-		void	execute(Bureaucrat& bureaucrat);
+		void	execute(Bureaucrat const & executor) const;
 
 		RobotomyRequestForm	&operator=(const RobotomyRequestForm& other);
 };
