@@ -4,6 +4,9 @@
 #include 	<iostream>
 #include 	<exception>
 #include	"AForm.hpp"
+#include	"RobotomyRequestForm.hpp"	
+#include	"PresidentialPardonForm.hpp"	
+#include	"ShrubberyCreationForm.hpp"
 
 class AForm;
 
@@ -15,15 +18,14 @@ class Intern
 		Intern(const Intern &copy);
 		~Intern();
 
-		//class	GradeTooHighException;
-		//class	GradeTooLowException;
+		class	InternException;
 
 		AForm	*makeForm(std::string nameForm, std::string target);
 
-		Intern	&operator=(const Intern& other);
+		Intern	&operator=(const Intern&);
 };
 
 // Operator overload <<
-std::ostream& operator<<(std::ostream& os, const Intern& b);
+std::ostream& operator<<(std::ostream& os, const Intern&);
 
 #endif

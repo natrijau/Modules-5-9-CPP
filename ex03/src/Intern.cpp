@@ -1,4 +1,16 @@
-#include	"Intern.hpp"
+#include	"../include/Intern.hpp"
+
+class	Intern::InternException : public	std::exception
+{
+	private:
+		std::string _message;
+	public:
+		virtual ~InternException() throw(){};
+		virtual const	char* what() const throw()
+		{
+			return ("Error: Unknown form type");
+    	};
+};
 
 /*******************************************************/
 /************** Constructors / Destructor **************/
@@ -22,48 +34,52 @@ Intern::~Intern() {
 /*******************************************************/
 
 enum nameOfForms{
-	ShrubberyCreationForm,
-	RobotomyRequestForm,
-	PresidentialPardonForm
+	ShrubberyCreation,
+	RobotomyRequest,
+	PresidentialPardon
 };
 
 AForm *Intern::makeForm(std::string nameForm, std::string target)
 {
-	enum nameOfForms myVar;
-	for (size_t i = 0; i < 2; i++)
+	std::string	formName[3] = { "shrub creation", "robotomy request", "presidential pardon"};
+	int	i = 0;
+	for (; i < 3; i++)
 	{
+		if (formName[i] == nameForm)
+			break;
 	}
-	
-	switch (myVar) {
-		case 1:
-		 std::cout << "Low Level";
-		  break;
-		case 2:
-		  std::cout << "Medium level";
-		  break;
-		case 3:
-		  std::cout << "High level";
-		  break;
-	  }
-	
+	switch (i)
+	{
+        case ShrubberyCreation:
+            std::cout << "Intern creates ShrubberyCreationForm" << std::endl;
+			return new ShrubberyCreationForm(target);
+        case RobotomyRequest:
+            std::cout << "Intern creates RobotomyRequestForm" << std::endl;
+            return new RobotomyRequestForm(target);
+        case PresidentialPardon:
+            std::cout << "Intern creates PresidentialPardonForm" << std::endl;
+            return new PresidentialPardonForm(target);
+		default:
+			throw	InternException();
+			break;
+	}
 }
 
 /*******************************************************/
 /*************** Assignment operator *******************/
 /*******************************************************/
 
-Intern &Intern::operator=(const Intern &other)
+Intern &Intern::operator=(const Intern &)
 {
-	if (this != &other)
-		return (*this);
+	return (*this);
 }
 
 /*******************************************************/
 /*************** Operator overload << *****************/
 /*******************************************************/
 
-std::ostream& operator<<(std::ostream& os, const Intern& b)
+std::ostream& operator<<(std::ostream& os, const Intern&)
 {
-	os << b;
+	os << "I'm just an intern. I make forms, that's all!" << std::endl;
 	return (os);
 }

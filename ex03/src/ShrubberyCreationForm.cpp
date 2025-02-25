@@ -42,7 +42,7 @@ void ShrubberyCreationForm::execute(const Bureaucrat &executor) const
 	}
 	if (executor.getGrade() <= this->_gradeToExec)
 	{
-		std::ofstream file((this->getTarget() + "_shrubbery").c_str());
+		std::ofstream file((this->getTarget() + "_shrubbery.txt").c_str());
 		if (!file)
 			std::cerr << "Error creating file!" << std::endl;
 		file	<< "       *       " << std::endl
