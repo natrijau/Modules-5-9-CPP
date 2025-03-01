@@ -5,29 +5,39 @@
 /************** Constructors / Destructor **************/
 /*******************************************************/
 
-ScalarConverter::ScalarConverter(){
+//ScalarConverter::ScalarConverter(){
 	//std::cout << std::endl << "Constructor default ScalarConverter called" << std::endl;
-}
+//}
 
-ScalarConverter::ScalarConverter(std::string str)
-{
-	convert(str);
+//ScalarConverter::ScalarConverter(std::string str)
+//{
+//	convert(str);
 	//std::cout << std::endl << "Constructor params ScalarConverter called" << std::endl;
-}
+//}
 
 //ScalarConverter::ScalarConverter(const ScalarConverter &copy)
 //{
-//	//std::cout << std::endl << "Constructor copy ScalarConverter called" << std::endl;
+	//std::cout << std::endl << "Constructor copy ScalarConverter called" << std::endl;
 //}
 
-ScalarConverter::~ScalarConverter() {
+//ScalarConverter::~ScalarConverter() {
 	//std::cout << std::endl << "Destructor ScalarConverter called" << std::endl;
-}
+//}
 
 
 /*******************************************************/
 /*************          convert        *****************/
 /*******************************************************/
+
+void ScalarConverter::impossible(std::string type, int flag)
+{
+	if (flag == 1)
+	{
+		std::cout << type << " : Non displayable" << std::endl;
+		return;
+	}
+	std::cout << type << " : impossible" << std::endl;
+}
 
 void ScalarConverter::convertToChar(std::string str)
 {
@@ -48,10 +58,7 @@ void ScalarConverter::convertToChar(std::string str)
 		str.erase(str.length() - 1);
 	
 	if (str[str.size() - 1] == '.' || count > 1 || str[0] == '.')
-	{
-		std::cout << "char : impossible" << std::endl;
-		return;
-	}
+		return (impossible("char", 0));
 	if (str[0] == '+')
 		str.erase(str.begin());
 	if (str.find(".") != std::string::npos)
@@ -65,11 +72,7 @@ void ScalarConverter::convertToChar(std::string str)
 		}
 	}
 	if (allDigits == false)
-	{
-		std::cout << "char : impossible" << std::endl;
-		return;
-	}
-
+		return (impossible("char", 0));
 	std::istringstream tmp(str);
 	tmp >> nb;
 
@@ -80,30 +83,29 @@ void ScalarConverter::convertToChar(std::string str)
 			std::cout << "char : '" << static_cast<char>(nb) << "'" << std::endl;
 			return;
 		}
-		std::cout << "char : Non displayable" << std::endl;
-		return;
+		return (impossible("char", 1));
 	}
 	std::cout << "char : impossible" << std::endl;
 }
 
 void ScalarConverter::convertToInt(std::string str)
 {
-	float		nb;
-	int 		count;
+	int			nb;
 	int			i = 0;
 	bool 		allDigits = true;
 	std::string	copyStr = str;
 	
-	count = std::count(copyStr.begin(), copyStr.end(), '.');
-
+	if (str.length() == 1  && !isdigit(str[0]))
+	{
+		std::cout << "int : " << static_cast<int>(str[0]) << std::endl;
+		return;
+	}
+	
 	if (copyStr[copyStr.size() - 1] == 'f')
 		copyStr.erase(copyStr.length() - 1);
 	
-	if (copyStr[copyStr.size() - 1] == '.' || count > 1 || copyStr[0] == '.')
-	{
-		std::cout << "int : impossible" << std::endl;
-		return;
-	}
+	if (copyStr[copyStr.size() - 1] == '.' || copyStr[0] == '.')
+		return (impossible("int", 0));
 	if (copyStr.find(".") != std::string::npos)
 		copyStr.erase(copyStr.find("."), copyStr.size());
 	if (str[0] == '-')
@@ -117,19 +119,13 @@ void ScalarConverter::convertToInt(std::string str)
 		}
 	}
 	if (allDigits == false)
-	{
-		std::cout << "int : impossible" << std::endl;
-		return;
-	}	
+		return (impossible("int", 0));
 	std::istringstream tmp(str);
 	tmp >> nb;
 
 	// !tmp.eof() check if !digit ||||| tmp.fail check if fail convert (ex: str > max int ...)
 	if (tmp.fail())
-	{
-		std::cout << "int : impossible" << std::endl;
-		return;
-	}
+		return (impossible("int", 0));
 	std::cout << "int : " << static_cast<int>(nb) << std::endl;
 }
 
@@ -137,20 +133,22 @@ void ScalarConverter::convertToFloat(std::string str)
 {
 	float		nb;
 	int			i = 0;
-	int 		count;
 	bool 		allDigits = true;
 	std::string	copyStr = str;
-	
-	count = std::count(copyStr.begin(), copyStr.end(), '.');
+	int precision = str.size() - str.find('.') - 1;
+	if (precision > 4)
+		precision = 4;		
+	if (str.length() == 1  && !isdigit(str[0]))
+	{
+		std::cout << "float : " << std::fixed << std::setprecision(1) << static_cast<float>(str[0]) << "f" << std::endl;
+		return;
+	}
 
 	if (copyStr[copyStr.size() - 1] == 'f')
 		copyStr.erase(copyStr.length() - 1);
 	
-	if (copyStr[copyStr.size() - 1] == '.' || count > 1 || copyStr[0] == '.')
-	{
-		std::cout << "float : impossible" << std::endl;
-		return;
-	}
+	if (copyStr[copyStr.size() - 1] == '.' || copyStr[0] == '.')
+		return (impossible("float", 0));
 	if (copyStr.find(".") != std::string::npos)
 		copyStr.erase(copyStr.find("."), copyStr.size());
 	if (copyStr[0] == '-')
@@ -164,49 +162,87 @@ void ScalarConverter::convertToFloat(std::string str)
 		}
 	}
 	if (allDigits == false)
-	{
-		std::cout << "float : impossible" << std::endl;
-		return;
-	}
+		return (impossible("float", 0));
 	if (str[str.size() - 1] == 'f')
 		str.erase(str.length() - 1);
 	if (str.find(".") == std::string::npos || (str[str.size() - 1] == '0' && str[str.size() - 2] == '.'))
-		std::cout << std::fixed << std::setprecision(1);
+		std::cout << std::fixed << std::setprecision(precision);
 	std::istringstream tmp(str);
 	tmp >> nb;
 	if (!tmp.eof() || tmp.fail())
-	{
-		std::cout << "float : impossible" << std::endl;
-		return;
-	}
-	std::cout << "float : " << static_cast<float>(nb) <<  "f" << std::endl;
+		return (impossible("float", 0));
+	std::cout << std::fixed << std::setprecision(precision) << "float : " << static_cast<float>(nb) <<  "f" << std::endl;
 }
 
 void ScalarConverter::convertToDouble(std::string str)
 {
-	double	nb;
+	double		nb;
+	bool 		allDigits = true;
+	int			i = 0;
+	std::string	copyStr = str;
+
+	if (str.length() == 1 && !isdigit(str[0]))
+	{
+		std::cout << "double : " << std::fixed << std::setprecision(1) << static_cast<double>(str[0]) <<std::endl;
+		return;
+	}
+	if (copyStr[copyStr.size() - 1] == 'f')
+		copyStr.erase(copyStr.length() - 1);
+	
+	if (copyStr[copyStr.size() - 1] == '.' || copyStr[0] == '.')
+		return (impossible("double", 0));
+	if (copyStr.find(".") != std::string::npos)
+		copyStr.erase(copyStr.find("."), copyStr.size());
+	if (copyStr[0] == '-')
+		i++;	
+	for (; copyStr[i]; i++)
+	{
+		if (!isdigit(copyStr[i]))
+		{
+			allDigits = false;
+			break;
+		}
+	}
+	if (allDigits == false)
+		return (impossible("double", 0));
 	if (str[str.size() - 1] == 'f')
 		str.erase(str.length() - 1);
 	std::istringstream tmp(str);
 	tmp >> nb;
-
 	if (!tmp.eof() || tmp.fail())
-	{
-		std::cout << "double : impossible" << std::endl;
-		return;
-	}
+		return (impossible("double", 0));
+	int precision = str.size() - str.find('.') - 1;
+	if (precision > 8)
+		precision = 8;	
 	if (str.find(".") == std::string::npos || (str[str.size() - 1] == '0' && str[str.size() - 2] == '.'))
-		std::cout << std::fixed << std::setprecision(1);
-	
-	std::cout << "double : " << static_cast<double>(nb) <<  std::endl;
+		std::cout << std::fixed << std::setprecision(precision);
+	std::cout << std::fixed << std::setprecision(precision) << "double : " << static_cast<double>(nb) <<  std::endl;
 }
 
 void ScalarConverter::convert(std::string str)
 {
-	if (str == "nan")
+	int 		count = 0;
+
+	count = std::count(str.begin(), str.end(), '.');
+	if (count > 1)
+	{
+		std::cout << "char: impossible\nint: impossible\nfloat: impossible\ndouble: impossible" << std::endl;
+		return;
+	}
+	if (str == "nan" || str == "nanf")
 	{
 		std::cout << "char: impossible\nint: impossible\nfloat: nanf\ndouble: nan" << std::endl;
-		return ;
+		return;
+	}
+	if (str == "+inf" || str == "inf" || str == "inff")
+	{
+		std::cout << "char: impossible\nint: impossible\nfloat: +inff\ndouble: +inf" << std::endl;
+		return;
+	}
+	if (str == "-inf" || str == "-inff")
+	{
+		std::cout << "char: impossible\nint: impossible\nfloat: -inff\ndouble: -inf" << std::endl;
+		return;
 	}
 	convertToChar(str);
 	convertToInt(str);
@@ -214,21 +250,21 @@ void ScalarConverter::convert(std::string str)
 	convertToDouble(str);
 }
 
-/*******************************************************/
-/*************** Assignment operator *******************/
-/*******************************************************/
+///*******************************************************/
+///*************** Assignment operator *******************/
+///*******************************************************/
 
-ScalarConverter& ScalarConverter::operator=(const ScalarConverter& )
-{
-	return (*this);
-}
+//ScalarConverter& ScalarConverter::operator=(const ScalarConverter& )
+//{
+//	return (*this);
+//}
 
 /*******************************************************/
 /*************** Operator overload << *****************/
 /*******************************************************/
 
-std::ostream& operator<<(std::ostream& os, const ScalarConverter&)
-{
-	os << "ScalarConverter" << std::endl;
-	return (os);
-}
+//std::ostream& operator<<(std::ostream& os, const ScalarConverter&)
+//{
+//	os << "ScalarConverter" << std::endl;
+//	return (os);
+//}
