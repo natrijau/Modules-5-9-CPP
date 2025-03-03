@@ -1,0 +1,19 @@
+#include <cstdint>			uintptr_t
+
+
+Pourquoi utiliser uintptr_t ?
+
+- Manipulation d'adresses : Il permet d'effectuer des opérations sur des adresses mémoire sous forme d'entiers.
+- Interopérabilité avec du code bas niveau : Utile en programmation système (par exemple, pour interfacer avec du code C).
+- Évite les erreurs d'aliasing : En le convertissant en entier, on contourne certains problèmes liés à la réinterprétation de pointeurs.
+
+Cas d'utilisation courants :
+
+- Stockage et comparaison d'adresses sans utiliser de pointeurs.
+- Utilisation en tant que clé unique pour identifier des objets en mémoire.
+- Effectuer des calculs d’adresses (attention aux alignements !).
+
+⚠️ Précautions ⚠️
+
+- uintptr_t ne garantit pas que l'on puisse dereferencer l'adresse stockée après conversion (dépend du contexte).
+- L'alignement doit être respecté lors de conversions d'entiers en pointeurs.
