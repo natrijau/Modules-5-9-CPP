@@ -26,39 +26,57 @@ Base::~Base() {
 	//std::cout << std::endl << "Destructor Base called" << std::endl;
 }
 
-//static Base *generate()
-//{
-//	int randomNumber  = std::rand() % 3 + 1;	// 1 >= 100;
+Base *generate()
+{
+	switch (std::rand() % 3)
+	{
+		case 0:
+			return (new A);
+		case 1:
+			return (new B);
+		case 2:
+			return (new C);
+		default:
+			std::cout << "Invalid randomNbr" << std::endl;
+			break;
+	}
+	return (NULL);
+}
 
-//	switch (randomNumber)
-//	{
-//		case 1:
-//			return (new A);
-//		case 2:
-//			return (new B);
-//		case 3:
-//			return (new C);
-//		default:
-//			std::cout << "Invalid randomNbr" << std::endl;
-//			break;
-//	} 
-//}
+void identify(Base *p)
+{
+	if (dynamic_cast<A*>(p))
+		std::cout << "Pointer type is : A" << std::endl;
+	else if (dynamic_cast<B*>(p))
+		std::cout << "Pointer type is : B" << std::endl;
+	else if (dynamic_cast<C*>(p))
+		std::cout << "Pointer type is : C" << std::endl;
+	else
+		std::cout << "Error type" << std::endl;
+}
 
-//static void identify(Base *p)
-//{
-//	if (static_cast<A*>(p) != nullptr)
-//		std::cout << "The real type of the object is : " << static_cast<A*>(p) << std::endl;
-//	else if (static_cast<B*>(p) != nullptr)
-//		std::cout << "The real type of the object is : " << static_cast<A*>(p) << std::endl;
-//	else if (static_cast<C*>(p) != nullptr)
-//		std::cout << "The real type of the object is : " << static_cast<A*>(p) << std::endl;
-//	else
-//		std::cout << "Error type" << std::endl;
-//}
-
-//static void identify(Base &p)
-//{
-//	(void)p;
-//	//static_cast<A&>(p);
-//}
+void identify(Base &p)
+{
+	try
+	{
+		A &aRef = dynamic_cast<A&>(p);
+		std::cout << "Ref type is : A" << std::endl;
+		(void) aRef;
+	}
+	catch(const std::exception& e){}
+	try
+	{
+		B &bRef = dynamic_cast<B&>(p);
+		std::cout << "Ref type is : B" << std::endl;
+		(void) bRef;
+	}
+	catch(const std::exception& e){}
+	try
+	{
+		C &cRef = dynamic_cast<C&>(p);
+		std::cout << "Ref type is : C" << std::endl;
+		(void) cRef;
+	}
+	catch(const std::exception& e){}
+}
 
