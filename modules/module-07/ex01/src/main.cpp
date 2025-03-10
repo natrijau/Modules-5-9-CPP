@@ -34,8 +34,8 @@ int     main()
 	iter(tabString, 3, printTab<std::string>);
 
 	std::string tabString2[][2] = {{"a", "b"}, {"c", "d"}, {"e", "f"}, {"g", "k"}};
-	iter(tabString, 4, printTab2<int[2]>);
-	iter(tab2, 4, swap<int[2]>);
-	iter(tabString, 4, printTab2<int[2]>);
+	iter(tabString2, 4, printTab2<std::string[2]>);
+	iter(tabString2, 4, swap<std::string[2]>);
+	iter(tabString2, 4, printTab2<std::string[2]>);
 	return (0);
 }

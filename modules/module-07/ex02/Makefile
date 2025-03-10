@@ -3,8 +3,8 @@ CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -g
 OBJDIR = obj
 SRCDIR = src
-INCDIR = include/whatever.hpp
-SRC = $(SRCDIR)/main.cpp
+INCDIR = include/Array.hpp
+SRC = $(SRCDIR)/main.cpp $(SRCDIR)/Array.cpp
 OBJ = $(SRC:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
 
 $(EXEC): $(OBJ)
