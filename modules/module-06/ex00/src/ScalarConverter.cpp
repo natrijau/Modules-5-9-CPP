@@ -78,7 +78,7 @@ void ScalarConverter::convertToChar(std::string str)
 
 	if ((nb >= 0 && nb < 127))
 	{
-		if ((nb >= 32 && nb < 48 ) || (nb > 57 && nb <= 126 ))
+		if ((nb >= 32 && nb <= 126 ))
 		{
 			std::cout << "char : '" << static_cast<char>(nb) << "'" << std::endl;
 			return;
