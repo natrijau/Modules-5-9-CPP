@@ -1,28 +1,41 @@
 #include	"../include/ScalarConverter.hpp"
 
+static int countChar(std::string str, char c)
+{
+	int	count = 0;
+
+	for (size_t i = 0; i < str.size() - 1; i++)
+	{
+		if (str[i] == c)
+			count++;
+	}
+	return (count);
+}
 
 /*******************************************************/
 /************** Constructors / Destructor **************/
 /*******************************************************/
 
-//ScalarConverter::ScalarConverter(){
-	//std::cout << std::endl << "Constructor default ScalarConverter called" << std::endl;
-//}
+ScalarConverter::ScalarConverter(){
+	std::cout << std::endl << "Constructor default ScalarConverter called" << std::endl;
+}
 
-//ScalarConverter::ScalarConverter(std::string str)
-//{
-//	convert(str);
-	//std::cout << std::endl << "Constructor params ScalarConverter called" << std::endl;
-//}
+ScalarConverter::ScalarConverter(std::string str)
+{
+	convert(str);
+	std::cout << std::endl << "Constructor params ScalarConverter called" << std::endl;
+}
 
-//ScalarConverter::ScalarConverter(const ScalarConverter &copy)
-//{
-	//std::cout << std::endl << "Constructor copy ScalarConverter called" << std::endl;
-//}
+ScalarConverter::ScalarConverter(const ScalarConverter &copy)
+{
+	std::cout << std::endl << "Constructor copy ScalarConverter called" << std::endl;
+	if (this != &copy)
+		*this = copy;
+}
 
-//ScalarConverter::~ScalarConverter() {
-	//std::cout << std::endl << "Destructor ScalarConverter called" << std::endl;
-//}
+ScalarConverter::~ScalarConverter() {
+	std::cout << std::endl << "Destructor ScalarConverter called" << std::endl;
+}
 
 
 /*******************************************************/
@@ -52,7 +65,7 @@ void ScalarConverter::convertToChar(std::string str)
 		return;
 	}	
 
-	count = std::count(str.begin(), str.end(), '.');
+	count = countChar(str, '.');
 
 	if (str[str.size() - 1] == 'f')
 		str.erase(str.length() - 1);
@@ -63,7 +76,7 @@ void ScalarConverter::convertToChar(std::string str)
 		str.erase(str.begin());
 	if (str.find(".") != std::string::npos)
 		str.erase(str.find("."), str.size());
-	for (size_t i = 0; str[i]; i++)
+	for (size_t i = 0; str.length() - 1; i++)
 	{
 		if (!isdigit(str[i]))
 		{
@@ -106,12 +119,13 @@ void ScalarConverter::convertToInt(std::string str)
 	
 	if (copyStr[copyStr.size() - 1] == '.' || copyStr[0] == '.')
 		return (impossible("int", 0));
-	if (copyStr.find(".") != std::string::npos)
-		copyStr.erase(copyStr.find("."), copyStr.size());
+
 	if (str[0] == '-')
 		i++;	
-	for (; copyStr[i]; i++)
+	for (; i < (int)copyStr.length(); i++)
 	{
+		if (copyStr[i] == '.')
+			i++;
 		if (!isdigit(copyStr[i]))
 		{
 			allDigits = false;
@@ -119,7 +133,11 @@ void ScalarConverter::convertToInt(std::string str)
 		}
 	}
 	if (allDigits == false)
+	{
 		return (impossible("int", 0));
+	}
+	if (copyStr.find(".") != std::string::npos)
+		copyStr.erase(copyStr.find("."), copyStr.size());		
 	std::istringstream tmp(str);
 	tmp >> nb;
 
@@ -137,7 +155,7 @@ void ScalarConverter::convertToFloat(std::string str)
 	std::string	copyStr = str;
 	int precision = str.size() - str.find('.') - 1;
 	if (precision > 4)
-		precision = 4;		
+		precision = 4;
 	if (str.length() == 1  && !isdigit(str[0]))
 	{
 		std::cout << "float : " << std::fixed << std::setprecision(1) << static_cast<float>(str[0]) << "f" << std::endl;
@@ -146,11 +164,12 @@ void ScalarConverter::convertToFloat(std::string str)
 
 	if (copyStr[copyStr.size() - 1] == 'f')
 		copyStr.erase(copyStr.length() - 1);
-	
 	if (copyStr[copyStr.size() - 1] == '.' || copyStr[0] == '.')
 		return (impossible("float", 0));
 	if (copyStr.find(".") != std::string::npos)
 		copyStr.erase(copyStr.find("."), copyStr.size());
+	else
+		precision = 1;
 	if (copyStr[0] == '-')
 		i++;	
 	for (; copyStr[i]; i++)
@@ -179,6 +198,7 @@ void ScalarConverter::convertToDouble(std::string str)
 	double		nb;
 	bool 		allDigits = true;
 	int			i = 0;
+	int precision = str.size() - str.find('.') - 1;
 	std::string	copyStr = str;
 
 	if (str.length() == 1 && !isdigit(str[0]))
@@ -193,6 +213,8 @@ void ScalarConverter::convertToDouble(std::string str)
 		return (impossible("double", 0));
 	if (copyStr.find(".") != std::string::npos)
 		copyStr.erase(copyStr.find("."), copyStr.size());
+	else
+		precision = 1;
 	if (copyStr[0] == '-')
 		i++;	
 	for (; copyStr[i]; i++)
@@ -211,7 +233,6 @@ void ScalarConverter::convertToDouble(std::string str)
 	tmp >> nb;
 	if (!tmp.eof() || tmp.fail())
 		return (impossible("double", 0));
-	int precision = str.size() - str.find('.') - 1;
 	if (precision > 8)
 		precision = 8;	
 	if (str.find(".") == std::string::npos || (str[str.size() - 1] == '0' && str[str.size() - 2] == '.'))
@@ -219,11 +240,13 @@ void ScalarConverter::convertToDouble(std::string str)
 	std::cout << std::fixed << std::setprecision(precision) << "double : " << static_cast<double>(nb) <<  std::endl;
 }
 
+
+
 void ScalarConverter::convert(std::string str)
 {
 	int 		count = 0;
 
-	count = std::count(str.begin(), str.end(), '.');
+	count = countChar(str, '.');
 	if (count > 1)
 	{
 		std::cout << "char: impossible\nint: impossible\nfloat: impossible\ndouble: impossible" << std::endl;

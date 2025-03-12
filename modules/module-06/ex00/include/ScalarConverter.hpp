@@ -3,8 +3,6 @@
 
 #include <iostream>
 #include <sstream>
-#include <algorithm>
-#include <string>
 #include <iomanip>
 
 #include <stdlib.h>
