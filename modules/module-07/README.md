@@ -70,12 +70,12 @@ Le module 07 contient les exercices suivants :
 
 2. Pour compiler les exercices d'un module, rendez-vous dans le dossier du module souhaité :
    ```bash
-   cd modules/module-07/exXX
+   cd modules/module-07/ex00
    make
 
 3. Exécutez le programme généré, par exemple :
    ```bash
-   ./template_example
+   ./whatever
 
 ---
 
