@@ -28,7 +28,11 @@ Voici un exemple simple illustrant l'utilisation des exceptions avec `try` et `c
 #include <iostream>
 #include <stdexcept>
 
-void mightGoWrong()
+/*	Dans cet exemple, une exception std::runtime_error est levée 
+	si une erreur se produit, et elle est capturée dans le bloc catch, où un message d'erreur est affiché. 
+*/
+
+void wrongTest()
 {
     bool errorOccurred = true;
     if (errorOccurred)
@@ -37,7 +41,7 @@ void mightGoWrong()
 
 int main() {
     try{
-        mightGoWrong();
+        wrongTest();
     }
 	catch (const std::exception &e){
         std::cerr << "Caught an exception: " << e.what() << std::endl;
