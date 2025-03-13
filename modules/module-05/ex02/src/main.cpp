@@ -14,9 +14,8 @@ void	robotization()
 	try
 	{
 		RobotomyRequestForm president("Bender");
-		Bureaucrat bureaucrat("Homer", 72);
+		Bureaucrat bureaucrat("Homer", 1);
 		bureaucrat.signForm(president);
-		president.execute(bureaucrat);
 		president.execute(bureaucrat);
 		president.execute(bureaucrat);
 	}

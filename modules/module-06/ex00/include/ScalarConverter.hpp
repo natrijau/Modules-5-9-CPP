@@ -3,6 +3,9 @@
 
 #include <iostream>
 #include <sstream>
+#include <climits>
+#include <cfloat> /*limites des float*/
+#include <string>
 #include <iomanip>
 
 #include <stdlib.h>
