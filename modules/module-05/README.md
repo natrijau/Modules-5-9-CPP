@@ -49,6 +49,8 @@ int main() {
     return (0);
 }
 ```
+- [Documentation sur les exceptions en C++](https://en.cppreference.com/w/cpp/error/exception)
+
 
 ---
 
