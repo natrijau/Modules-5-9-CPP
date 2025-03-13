@@ -1,6 +1,6 @@
-# Module 05 - Répétition et Exceptions
+# Module 07 - C++ Templates
 
-Bienvenue dans le **Module 05** du cursus C++ de 42. Ce module se concentre sur la gestion des exceptions et la répétition des concepts fondamentaux de la programmation orientée objet (OOP) en C++.
+Bienvenue dans le **Module 07** du cursus C++ de 42. Ce module se concentre sur l'utilisation des templates en C++, un concept puissant qui permet de créer des fonctions et des classes génériques.
 
 ---
 
@@ -8,105 +8,79 @@ Bienvenue dans le **Module 05** du cursus C++ de 42. Ce module se concentre sur 
 
 Dans ce module, vous apprendrez à :
 
-- Gérer les exceptions en C++.
-- Utiliser les classes et les objets de manière avancée.
-- Manipuler les grades et les formulaires dans un contexte bureaucratique.
-- Implémenter des classes abstraites et concrètes.
-- Utiliser les opérateurs d'insertion pour l'affichage.
+- Utiliser les templates pour créer des fonctions et des classes génériques.
+- Comprendre la syntaxe et les capacités des templates.
+- Implémenter des fonctions utilitaires avec des templates.
+- Gérer les tableaux et les itérations avec des templates.
+- Créer des classes de tableaux génériques avec des fonctionnalités avancées.
 
 ---
 
-## Concept d'Exceptions
+## Concept de Templates en C++
 
-Les exceptions en C++ sont un mécanisme permettant de gérer les erreurs et les situations exceptionnelles qui peuvent survenir pendant l'exécution d'un programme. Elles permettent de séparer le code de gestion des erreurs du code normal, rendant ainsi le programme plus lisible et plus facile à maintenir.
+Les templates en C++ permettent de définir des fonctions et des classes qui peuvent fonctionner avec des types de données génériques. Cela permet d'écrire du code réutilisable et flexible, capable de manipuler différents types de données sans duplication de code.
 
-### Exemple de `try` et `catch`
+### Exemple de Fonction Template
 
-Voici un exemple simple illustrant l'utilisation des exceptions avec `try` et `catch` :
+Voici un exemple simple d'une fonction template qui échange deux valeurs :
 
 ```cpp
-#include <iostream>
-#include <stdexcept>
-
-/*	Dans cet exemple, une exception std::runtime_error est levée 
-	si une erreur se produit, et elle est capturée dans le bloc catch, où un message d'erreur est affiché. 
-*/
-
-void wrongTest()
-{
-    bool errorOccurred = true;
-    if (errorOccurred)
-        throw std::runtime_error("An error occurred!");
-}
-
-int main() {
-    try{
-        wrongTest();
-    }
-	catch (const std::exception &e){
-        std::cerr << "Caught an exception: " << e.what() << std::endl;
-    }
-    return (0);
+template <typename T>
+void swap(T &a, T &b) {
+    T temp = a;
+    a = b;
+    b = temp;
 }
 ```
-- [Documentation sur les exceptions en C++](https://en.cppreference.com/w/cpp/error/exception)
-- [... avec exemples](https://www.w3schools.com/cpp/cpp_exceptions.asp)
-
+Cette fonction peut être utilisée avec n'importe quel type de données, tant que les opérations effectuées sont supportées par ce type.
 
 ---
 
 ## Contenu du module
 
-Le module 05 contient les exercices suivants :
+Le module 07 contient les exercices suivants :
 
-### 1. **Exercice 00 : Mommy, when I grow up, I want to be a bureaucrat!**
-   - **Description :** Création d'une classe `Bureaucrat` avec des grades et gestion des exceptions pour les grades invalides.
+### 1. **Exercice 00 : Start with a few functions**
+   - **Description :** Implémentation de fonctions templates pour échanger, trouver le minimum et le maximum de deux valeurs.
    - **Concepts abordés :**
-     - Gestion des exceptions.
-     - Utilisation des constantes et des getters.
-     - Implémentation des opérateurs d'insertion.
+     - Création de fonctions templates.
+     - Utilisation des opérateurs de comparaison.
+     - Manipulation de différents types de données.
 
-### 2. **Exercice 01 : Form up, maggots!**
-   - **Description :** Introduction de la classe `Form` et interaction avec la classe `Bureaucrat`.
+### 2. **Exercice 01 : Iter**
+   - **Description :** Création d'une fonction template `iter` qui applique une fonction à chaque élément d'un tableau.
    - **Concepts abordés :**
-     - Gestion des attributs privés.
-     - Utilisation des exceptions pour les grades invalides.
-     - Signature et exécution des formulaires.
+     - Utilisation de templates avec des tableaux.
+     - Application de fonctions sur des collections de données.
 
-### 3. **Exercice 02 : No, you need form 28B, not 28C...**
-   - **Description :** Création de classes concrètes dérivées de la classe abstraite `AForm`.
+### 3. **Exercice 02 : Array**
+   - **Description :** Développement d'une classe template `Array` pour gérer des tableaux génériques avec des fonctionnalités avancées.
    - **Concepts abordés :**
-     - Classes abstraites et concrètes.
-     - Exécution des actions spécifiques aux formulaires.
-     - Gestion des exceptions pour les grades invalides.
-
-### 4. **Exercice 03 : At least this beats coffee-making**
-   - **Description :** Implémentation de la classe `Intern` pour créer des formulaires.
-   - **Concepts abordés :**
-     - Utilisation de fonctions pour créer des objets.
-     - Gestion des erreurs et des messages d'erreur.
+     - Création de classes templates.
+     - Gestion de la mémoire avec `new[]` et `delete[]`.
+     - Accès sécurisé aux éléments du tableau.
 
 ---
 
 ## Instructions pour compiler et exécuter
 
-1. Accédez au dossier du Module 05 :
+1. Accédez au dossier du Module 07 :
    ```bash
-   cd modules/module-05
+   cd modules/module-07
 
 2. Pour compiler les exercices d'un module, rendez-vous dans le dossier du module souhaité :
    ```bash
-   cd modules/module-05/exXX
+   cd modules/module-07/exXX
    make
 
 3. Exécutez le programme généré, par exemple :
    ```bash
-   ./bureaucrat
+   ./template_example
 
 ---
 
 ## Ressources supplémentaires
 
-- [Documentation sur les exceptions en C++](https://en.cppreference.com/w/cpp/error/exception)
-- [Tutoriel sur les classes abstraites en C++](https://www.learncpp.com/cpp-tutorial/abstract-classes/)
-- [Introduction aux opérateurs d'insertion en C++](https://www.learncpp.com/cpp-tutorial/overloading-the-io-operators/)
+- [Documentation sur les templates en C++](https://en.cppreference.com/w/cpp/language/templates)
+- [Tutoriel sur les fonctions templates](https://www.learncpp.com/cpp-tutorial/function-templates/)
+- [Introduction aux classes templates](https://www.learncpp.com/cpp-tutorial/class-templates/)
