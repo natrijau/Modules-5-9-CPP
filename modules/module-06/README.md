@@ -65,12 +65,12 @@ Le module 06 contient les exercices suivants :
 
 2. Pour compiler les exercices d'un module, rendez-vous dans le dossier du module souhaité :
    ```bash
-   cd modules/module-06/exXX
+   cd modules/module-06/ex01
    make
 
 3. Exécutez le programme généré, par exemple :
    ```bash
-   ./scalar_converter
+   ./convert (argument)
 
 ---
 
