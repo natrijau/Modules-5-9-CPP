@@ -50,6 +50,7 @@ int main() {
 }
 ```
 - [Documentation sur les exceptions en C++](https://en.cppreference.com/w/cpp/error/exception)
+- [... avec exemples](https://www.w3schools.com/cpp/cpp_exceptions.asp)
 
 
 ---
