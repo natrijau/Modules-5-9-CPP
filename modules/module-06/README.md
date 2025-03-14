@@ -77,5 +77,4 @@ Le module 06 contient les exercices suivants :
 ## Ressources supplémentaires
 
 - [Documentation sur les casts en C++](https://en.cppreference.com/w/cpp/language/explicit_cast)
-- [Tutoriel sur la sérialisation en C++](https://www.learncpp.com/cpp-tutorial/serialization/)
 - [Introduction aux conversions de types en C++](https://www.learncpp.com/cpp-tutorial/type-casting/)
