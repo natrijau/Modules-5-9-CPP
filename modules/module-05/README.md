@@ -10,6 +10,7 @@ Dans ce module, vous apprendrez à :
 
 - Gérer les exceptions en C++.
 - Utiliser les classes et les objets de manière avancée.
+- Manipuler les grades et les formulaires dans un contexte bureaucratique.
 - Implémenter des classes abstraites et concrètes.
 - Utiliser les opérateurs d'insertion pour l'affichage.
 
