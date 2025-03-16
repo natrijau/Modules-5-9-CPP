@@ -96,7 +96,7 @@ Le module 05 contient les exercices suivants :
 
 2. Pour compiler les exercices d'un module, rendez-vous dans le dossier du module souhaité :
    ```bash
-   cd modules/module-05/ex00
+   cd modules/module-05/exXX
    make
 
 3. Exécutez le programme généré, par exemple :

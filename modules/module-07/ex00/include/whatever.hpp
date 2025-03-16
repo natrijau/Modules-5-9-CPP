@@ -7,7 +7,7 @@ template <typename T>
 void swap(T &a, T &b)
 {
 	std::cout << "swap of a : " << a << " and b : " << b << std::endl;
-	T temp = a;
+	T tmp = a;
 	a = b;
 	b = temp;
 }

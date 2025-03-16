@@ -28,7 +28,7 @@ template<typename t>
 void	otherDetected(t nb, std::string str)
 {
 	/*	detecte si presence d'un caracter '.'	*/
-	if (str.find('.') == std::string::npos)
+	if (str.find('.') == std::string::npos || str[str.size() - 1] == '.')
 		std::cout << std::fixed << std::setprecision(1);
 	
 	/*	verifs pour char*/
@@ -68,37 +68,25 @@ void ScalarConverter::convert(std::string str)
 	
 	/*Char detect*/
 	if (str.size() == 1 && std::isprint(str[0]))
-	{
-		std::cout << "char detected \n";
 		return (charDetected(str));
-	}
 	
 	/*Int detected*/
 	char	*endptr;
 	long	nb = std::strtol(str.c_str(), &endptr, 10); 
 	if (*endptr == '\0' && (nb >= INT_MIN && nb <= INT_MAX))
-	{
-		std::cout << "int detected \n";
 		return (otherDetected(nb, str));
-	}
 	
 	/*float detected*/
 	float	nbf = std::strtof(str.c_str(), &endptr); 
 	if ((*endptr == '\0' || (*endptr == 'f' && endptr == &str[str.size() - 1])) && str[str.size() - 1] != '.')
-	{
-		std::cout << "float detected \n";
 		return (otherDetected(nbf, str));
-	}
 
 	/*double detected*/
 	double	nbdouble = std::strtod(str.c_str(), &endptr); 
 	if (*endptr == '\0' && str.find('.') != std::string::npos)
-	{
-		std::cout << "double detected \n";
 		return (otherDetected(nbdouble, str));
-	}
 
-	std::cout << "char : impossible\nint : impossible\nfloat : impossible\ndouble : impossible" << std::endl;
+	std::cout << "char : impossible\nint : impossible\nfloat : nanf\ndouble : nan" << std::endl;
 }
 
 ///*******************************************************/
