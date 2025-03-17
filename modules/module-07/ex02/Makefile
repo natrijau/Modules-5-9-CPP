@@ -1,10 +1,10 @@
-EXEC = whatever
+EXEC = array
 CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -g
 OBJDIR = obj
 SRCDIR = src
 INCDIR = include/Array.hpp
-SRC = $(SRCDIR)/main.cpp $(SRCDIR)/Array.cpp
+SRC = $(SRCDIR)/main.cpp
 OBJ = $(SRC:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
 
 $(EXEC): $(OBJ)
