@@ -1,24 +1,6 @@
 #include	"../include/iter.hpp"
 
-template <typename T>
-void	printTab(T &elementArray)
-{
-	std::cout << elementArray << std::endl;
-}
 
-template <typename T>
-void printTab2(T &elementArray)
-{
-	std::cout << "[" << elementArray[0] << ", " << elementArray[1] << "]" << std::endl;
-}
-
-template <typename T>
-void swap(T &elementArray)
-{
-	std::string temp = elementArray[0];
-	elementArray[0] = elementArray[1];
-	elementArray[1] = temp;
-}
 
 int     main()
 {

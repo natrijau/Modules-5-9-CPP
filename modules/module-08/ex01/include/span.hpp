@@ -5,11 +5,12 @@
 #include	<vector>
 #include 	<algorithm>
 #include	<ctime>
-
+#include 	<unistd.h>
+#include 	<fstream>
 class Span
 {
 	private:
-		std::vector<unsigned int> _N;
+		std::vector<int> _N;
 		unsigned int	_size;
 	public:
 		Span();
@@ -17,7 +18,7 @@ class Span
 		Span(unsigned int i);
 		~Span();
 
-		void			addNumber(unsigned int nbr);
+		void			addNumber(int nbr);
 		void			addRandomNumber();
 		unsigned int	shortestSpan();
 		unsigned int	longestSpan();

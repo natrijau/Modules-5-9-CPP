@@ -13,8 +13,9 @@ int	main()
 	//std::cout << std::endl;
 	//std::cout << sp.shortestSpan() << std::endl;
 	//std::cout << sp.longestSpan() << std::endl;
-	Span	sp = Span(100000);
+	Span	sp = Span(5);
 	sp.addRandomNumber();
+	sp.printN();
 	std::cout << sp.shortestSpan() << std::endl;
 	std::cout << sp.longestSpan() << std::endl;
 	return (0);

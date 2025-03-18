@@ -8,7 +8,7 @@ Span::Span(const Span &copy) : _N(copy._N), _size(copy._size){}
 
 Span::~Span(){};
 
-void Span::addNumber(unsigned int nbr)
+void Span::addNumber(int nbr)
 {
 	if (this->_N.size() < this->_size)
 		this->_N.push_back(nbr);
@@ -20,7 +20,10 @@ void	Span::addRandomNumber()
 {
 	std::srand(std::time(0));
 	for (size_t i = 0; i < this->_size; i++)
-		this->_N.push_back(std::rand() % 555555555 + 1);
+	{
+		sleep(1);
+		this->_N.push_back(std::rand() % -500000  -25252);
+	}
 }
 
 unsigned int Span::shortestSpan()
@@ -28,11 +31,11 @@ unsigned int Span::shortestSpan()
 	if (this->_size < 2)
         throw std::runtime_error("Not enough elements");
 	
-	std::vector<unsigned int> tmp = this->_N;
+	std::vector<int> tmp = this->_N;
 	std::sort(tmp.begin(), tmp.end());
-	unsigned int shortest = tmp[1] - tmp[0];
+	int shortest = tmp[1] - tmp[0];
 	
-	for (size_t i = 1; i < this->_size; i++)
+	for (unsigned int i = 1; i < this->_size; i++)
 	{
 		if (tmp[i] - tmp[i - 1] < shortest)
 			shortest = tmp[i] - tmp[i - 1];
@@ -46,8 +49,8 @@ unsigned int Span::longestSpan()
 	if (this->_size < 2)
 		throw std::runtime_error("Not enough elements to find a span.");
 	
-	std::vector<unsigned int>::iterator minIt = std::min_element(this->_N.begin(), this->_N.end());
-	std::vector<unsigned int>::iterator maxIt = std::max_element(this->_N.begin(), this->_N.end());
+	std::vector<int>::iterator minIt = std::min_element(this->_N.begin(), this->_N.end());
+	std::vector<int>::iterator maxIt = std::max_element(this->_N.begin(), this->_N.end());
 	return (*maxIt - *minIt);
 }
 
