@@ -7,6 +7,7 @@
 #include	<ctime>
 #include 	<unistd.h>
 #include 	<fstream>
+
 class Span
 {
 	private:
