@@ -29,7 +29,9 @@ Les casts en C++ permettent de convertir un type de données en un autre. Cela p
 5. **Reinterpret cast** : `reinterpret_cast<type>(expression)`
 
 dynamic_cast : Sécurisé, vérifie à l'exécution, utilisé pour les hiérarchies de classes polymorphiques.
+
 static_cast : Moins sécurisé, pas de vérification à l'exécution, utilisé pour les conversions de types compatibles.
+
 reinterpret_cast : Très peu sécurisé, pas de vérification, utilisé pour les conversions de bas niveau
 
 Chaque type de cast a ses propres cas d'utilisation et implications. Par exemple, `dynamic_cast` est utilisé pour les conversions sûres entre types polymorphiques.
