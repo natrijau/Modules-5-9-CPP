@@ -59,7 +59,7 @@ void identify(Base *p)
 	else if (dynamic_cast<B*>(p))
 		std::cout << "	- Pointer type is : B" << std::endl;
 	else if (dynamic_cast<C*>(p))
-		std::cout << "	- Pointer type is : C" << std::endl;
+	std::cout << "	- Pointer type is : C" << std::endl;
 	else
 		std::cout << "	Error type" << std::endl;
 }

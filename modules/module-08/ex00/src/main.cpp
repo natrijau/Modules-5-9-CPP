@@ -31,7 +31,6 @@ void	haveInteger()
 
 int	main()
 {
-
 	try
 	{
 		haveInteger();
@@ -43,7 +42,5 @@ int	main()
 	{
 		std::cerr << e.what() << '\n';
 	}
-	
-
 	return (0);
 }

@@ -20,7 +20,7 @@ class Span
 		~Span();
 
 		void			addNumber(int nbr);
-		void			addRandomNumber();
+		void			addRandomNumber(int *tab);
 		unsigned int	shortestSpan();
 		unsigned int	longestSpan();
 		void			printN();

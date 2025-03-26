@@ -1,9 +1,9 @@
-EXEC = easyfind
+EXEC = btc
 CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -g
 OBJDIR = obj
 SRCDIR = src
-INCDIR = include/easyfind.hpp
+INCDIR = include/BitcoinExchange.hpp
 SRC = $(SRCDIR)/main.cpp
 OBJ = $(SRC:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
 

@@ -1,49 +1,23 @@
-#include	"../include/easyfind.hpp"
+#include	"../include/BitcoinExchange.hpp"
 
-void	haveNotInteger()
+int	main(int ac, char **av)
 {
+	if (ac != 2)
+	{
+		if (ac == 1)
+			std::cerr << "Error: could not open file." << std::endl;
+		else
+			std::cerr << "Invalid number of arguments." << std::endl;
+		return (1);
+	}
 	try
 	{
-		std::vector<int> v(4, 100);
-		std::vector<int>::iterator it = easyfind(v, 42);
-		(void)it;
-	}
-	catch(const std::exception& e)
-	{
-		std::cerr << e.what() << '\n';
-	}
-}
-
-void	haveInteger()
-{
-	try
-	{
-		std::vector<int> v(4, 100);
-		v.push_back(42);
-		std::vector<int>::iterator it = easyfind(v, 42);
-		std::cout << "Nb found in vector v : " << *it << std::endl;
-	}
-	catch(const std::exception& e)
-	{
-		std::cerr << e.what() << '\n';
-	}
-}
-
-int	main()
-{
-
-	try
-	{
-		haveInteger();
-		std::cout << std::endl;
-		haveNotInteger();
-		std::cout << std::endl;
+		BitcoinExchange(av[1]);
 	}
 	catch(const std::exception& e)
 	{
 		std::cerr << e.what() << '\n';
 	}
 	
-
 	return (0);
 }

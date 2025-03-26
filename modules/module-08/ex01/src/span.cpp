@@ -16,14 +16,15 @@ void Span::addNumber(int nbr)
 		throw	std::runtime_error("Tab full. Impossible to add number !");
 }
 
-void	Span::addRandomNumber()
+void	Span::addRandomNumber(int *tab)
 {
-	std::srand(std::time(0));
-	for (size_t i = 0; i < this->_size; i++)
-	{
-		sleep(1);
-		this->_N.push_back(std::rand() % -500000  -25252);
-	}
+	this->_N.insert(_N.end(),tmp.begin(), tmp.end());
+	//std::srand(std::time(0));
+	//for (size_t i = 0; i < this->_size; i++)
+	//{
+	//	sleep(1);
+	//	this->_N.push_back(std::rand() % -500000  -25252);
+	//}
 }
 
 unsigned int Span::shortestSpan()
