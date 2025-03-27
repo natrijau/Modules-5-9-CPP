@@ -15,12 +15,12 @@ class Span
 		unsigned int	_size;
 	public:
 		Span();
-		Span(const Span& copy);
 		Span(unsigned int i);
+		Span(const Span& copy);
 		~Span();
 
 		void			addNumber(int nbr);
-		void			addRandomNumber(int *tab);
+		void			addRandomNumber(std::vector<int> tmp);
 		unsigned int	shortestSpan();
 		unsigned int	longestSpan();
 		void			printN();
