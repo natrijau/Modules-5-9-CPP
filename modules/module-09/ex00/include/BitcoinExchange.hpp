@@ -8,12 +8,22 @@
 #include 	<cstdlib>
 #include	<exception>
 
+//class BitcoinExchange
+//{
+//	private:
+//		std::map<std::string, float> _data;
+//		BitcoinExchange();
+//	public:
+//		BitcoinExchange(std::string data);
+//		~BitcoinExchange();
+//};
+
 bool	allDigit(std::string str)
 {
 	for (size_t i = 0; i < str.length(); i++)
 	{
 		if (!std::isdigit(str[i]))
-			return false;		
+		return false;		
 	}
 	return (true);
 }
@@ -35,7 +45,7 @@ bool	validDate(std::string date)
 		return false;
 	
 	if (yearString.length() != 4 || monthString.length() > 3 || dayString.length() > 3 )
-		return false;	
+		return false;
 	
 	year = std::strtod(yearString.c_str(), &endptr);
 	if (year < 1000)
@@ -47,7 +57,7 @@ bool	validDate(std::string date)
 
 	month = std::strtod(monthString.c_str(), &endptr);
 	if (month < 0 || month > 12)
-		return false;		
+		return false;
 	
 	return true;
 }
