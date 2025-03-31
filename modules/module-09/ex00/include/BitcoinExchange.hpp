@@ -6,7 +6,6 @@
 #include 	<string>
 #include	<map>
 #include 	<cstdlib>
-#include 	<iomanip>
 #include	<exception>
 
 bool	allDigit(std::string str)
@@ -92,7 +91,6 @@ void	inputFile(char *arg, std::map<std::string, float> btcExchange)
 
 void	BitcoinExchange(char *arg)
 {
-	(void) arg;
 	std::ifstream file("./data.csv");
 	if (!file.is_open())
 		throw 	std::runtime_error("Unable to open data file");
