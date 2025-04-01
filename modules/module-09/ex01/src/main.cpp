@@ -1,61 +1,15 @@
-#include	"../include/span.hpp"
+#include	"../include/RPN.hpp"
 
-void	spanDefault()
+int	main(int ac, char **av)
 {
+	if (ac != 2)
+	{
+		std::cerr << "Invalid number of arguments" << std::endl;
+		return (1);
+	}
 	try
 	{
-		std::cout << "Default constructor call" << std::endl;
-		Span span;
-		std::cout << "shortestSpan called withat elements" << std::endl;
-		span.shortestSpan();
-	}
-	catch(const std::exception& e)
-	{
-		std::cerr << e.what() << '\n';
-	}
-}
-
-void	randNbr()
-{
-	try
-	{
-		std::cout << "randNbr" << std::endl;
-		Span	sp = Span(10);
-		sp.addRandomNumber();
-		std::cout << "PRINT NEW TAB :" << std::endl;
-		sp.printNbr();
-	}
-	catch(const std::exception& e)
-	{
-		std::cerr << e.what() << '\n';
-	}
-}
-
-void	shortAndLong()
-{
-	try
-	{
-		std::cout << "shortAndLong()" << std::endl;
-		Span	sp = Span(10);
-		sp.addRandomNumber();
-		std::cout << sp.shortestSpan() << std::endl;
-		std::cout << sp.longestSpan() << std::endl;
-	}
-	catch(const std::exception& e)
-	{
-		std::cerr << e.what() << '\n';
-	}
-}
-
-int	main()
-{
-	try
-	{
-		spanDefault();
-		std::cout << std::endl;
-		randNbr();
-		std::cout << std::endl;
-		shortAndLong();
+		RPN test(av[1]);
 	}
 	catch(const std::exception& e)
 	{

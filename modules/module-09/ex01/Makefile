@@ -1,10 +1,10 @@
-EXEC = span
+EXEC = RPN
 CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -g
 OBJDIR = obj
 SRCDIR = src
-INCDIR = include/span.hpp
-SRC = $(SRCDIR)/main.cpp $(SRCDIR)/span.cpp
+INCDIR = include/RPN.hpp
+SRC = $(SRCDIR)/main.cpp $(SRCDIR)/RPN.cpp
 OBJ = $(SRC:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
 
 $(EXEC): $(OBJ)

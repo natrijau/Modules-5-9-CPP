@@ -23,7 +23,7 @@ bool	allDigit(std::string str)
 	for (size_t i = 0; i < str.length(); i++)
 	{
 		if (!std::isdigit(str[i]))
-		return false;		
+		return false;
 	}
 	return (true);
 }
@@ -43,14 +43,14 @@ bool	validDate(std::string date)
 
 	if (!allDigit(yearString) || !allDigit(monthString) || !allDigit(dayString))
 		return false;
-	
+
 	if (yearString.length() != 4 || monthString.length() > 3 || dayString.length() > 3 )
 		return false;
-	
+
 	year = std::strtod(yearString.c_str(), &endptr);
 	if (year < 1000)
 		return false;
-	
+
 	day = std::strtod(dayString.c_str(), &endptr);
 	if (day < 0 || day > 31)
 		return false;
@@ -58,7 +58,7 @@ bool	validDate(std::string date)
 	month = std::strtod(monthString.c_str(), &endptr);
 	if (month < 0 || month > 12)
 		return false;
-	
+
 	return true;
 }
 
@@ -79,7 +79,10 @@ void	inputFile(char *arg, std::map<std::string, float> btcExchange)
 			std::string date = line.substr(0, splitComma).c_str();
 			if (!validDate(date))
 				throw 	std::runtime_error("Error: bad input => " + line);
-			float	number = std::strtof(line.substr(splitComma + 1).c_str(), NULL);
+			char *endptr;
+			float	number = std::strtof(line.substr(splitComma + 1).c_str(), &endptr);
+			if (*endptr != '\0')
+				throw 	std::runtime_error("Error: bad input => " + line);
 			if (number < 0)
 				throw 	std::runtime_error("Error: not a positive number.");
 			if (number > 1000)
@@ -89,14 +92,14 @@ void	inputFile(char *arg, std::map<std::string, float> btcExchange)
 				throw 	std::runtime_error("Error: no valid exchange rate available for " + date);
 			if (it == btcExchange.end() || it->first != date)
 				--it;
-			std::cout << date << " => " << line.substr(splitComma + 1).c_str() << " = " << number * it->second << std::endl;	
+			std::cout << date << " => " << line.substr(splitComma + 1).c_str() << " = " << number * it->second << std::endl;
 		}
 		catch(const std::exception& e)
 		{
 			std::cerr << e.what() << '\n';
 		}
 	}
-	file.close();	
+	file.close();
 }
 
 void	BitcoinExchange(char *arg)
