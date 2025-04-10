@@ -24,7 +24,7 @@ RPN::RPN(char *expr)
 				throw	std::runtime_error("Error");
 			space = false;
 		}
-		if ((!std::isdigit(expr[i]) || expr[i] > '9') && i < 2)
+		if (!std::isdigit(expr[i]) && i < 2)
 			throw	std::runtime_error("Error");
 		else if (std::isdigit(expr[i]))
 			this->_stack.push(expr[i] - '0');
