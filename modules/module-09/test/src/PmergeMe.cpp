@@ -68,7 +68,7 @@ PmergeMe::PmergeMe(char **av)
 	if (this->_numbersList.size() < 2)
 		throw	std::runtime_error("Invalid number of integers to sort");
 
-	clock_t startList = clock();
+	std::clock_t startList = clock();
 	sortList();
 	clock_t endList = clock();
 
@@ -87,8 +87,8 @@ PmergeMe::PmergeMe(char **av)
 		std::cout << *it << " ";
 	}
 	std::cout << std::endl;
-	std::cout << "Time to process a range of " << _numbersList.size() << " elements with std::list : " << endList - startList << " us" << std::endl;
-	std::cout << "Time to process a range of " << _numbersVector.size() << " elements with std::vector : " << end - start << " us" << std::endl;
+	std::cout << "Time to process a range of " << _numbersList.size() << " elements with std::list : " << double(endList - startList) / CLOCKS_PER_SEC << " s" << std::endl;
+	std::cout << "Time to process a range of " << _numbersVector.size() << " elements with std::vector : " << double(end - start) / CLOCKS_PER_SEC<< " s" << std::endl;
 };
 
 std::vector<unsigned int>	binaryInsertVector(std::vector<unsigned int> vector, unsigned int value)
