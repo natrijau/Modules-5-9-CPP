@@ -5,6 +5,7 @@
 #include	<algorithm>
 #include	<list>
 #include	<vector>
+#include	<ctime>
 
 class PmergeMe
 {
@@ -20,6 +21,8 @@ class PmergeMe
 		void 	addNumbersVector(char **av);
 		void	sortList();
 		void	sortVector();
+
+		//unsigned int &operator[](unsigned int i);
 };
 
 

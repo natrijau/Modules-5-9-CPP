@@ -12,16 +12,16 @@ static bool strIntegerPositiv(char *str)
 
 	char *endptr;
 	long long integer = std::strtoll(str, &endptr, 10);
-	if (integer > 2147483647 || integer <= 0 || *endptr != '\0')
+	if (integer > 2147483647 || integer < 0 || *endptr != '\0')
 		return (false);
-	return (true);	
+	return (true);
 }
 
 static bool allIntegerPositiv(char **av)
 {
 	for (size_t i = 1; av[i]; i++){
 		if (!strIntegerPositiv(av[i]))
-			return (false);		
+			return (false);
 	}
 	return (true);
 }
@@ -32,11 +32,11 @@ void PmergeMe::addNumbersList(char **av)
 		char *endptr;
 		this->_numbersList.push_back((int)std::strtoll(av[i], &endptr, 10));
 	}
-	std::cout << "Before:  ";
-	for (std::list<unsigned int>::iterator it = this->_numbersList.begin(); it != this->_numbersList.end(); ++it){
-        std::cout << *it << " ";
-    }
-	std::cout << std::endl;
+	//std::cout << "Before:  ";
+	//for (std::list<unsigned int>::iterator it = this->_numbersList.begin(); it != this->_numbersList.end(); ++it){
+    //    std::cout << *it << " ";
+    //}
+	//std::cout << std::endl;
 }
 
 void PmergeMe::addNumbersVector(char **av)
@@ -45,8 +45,14 @@ void PmergeMe::addNumbersVector(char **av)
 		char *endptr;
 		this->_numbersVector.push_back((int)std::strtoll(av[i], &endptr, 10));
 	}
+	int	i = 0;
 	std::cout << "Before:  ";
-	for (std::vector<unsigned int>::iterator it = this->_numbersVector.begin(); it != this->_numbersVector.end(); ++it){
+	for (std::vector<unsigned int>::iterator it = this->_numbersVector.begin(); it != this->_numbersVector.end(); ++it , i++){
+		if (i > 50)
+		{
+			std::cout << "[...]";
+			break;
+		}
         std::cout << *it << " ";
     }
 	std::cout << std::endl;
@@ -61,9 +67,45 @@ PmergeMe::PmergeMe(char **av)
 	addNumbersVector(av);
 	if (this->_numbersList.size() < 2)
 		throw	std::runtime_error("Invalid number of integers to sort");
+
+	std::clock_t startList = clock();
 	sortList();
+	clock_t endList = clock();
+
+	clock_t start = clock();
 	sortVector();
+	clock_t end = clock();
+
+	int	i = 0;
+	std::cout << "After:  ";
+	for (std::vector<unsigned int>::iterator it = this->_numbersVector.begin(); it != this->_numbersVector.end(); ++it, i++){
+		if (i > 50)
+		{
+			std::cout << "[...]";
+			break;
+		}
+		std::cout << *it << " ";
+	}
+	std::cout << std::endl;
+	std::cout << "Time to process a range of " << _numbersList.size() << " elements with std::list : " << double(endList - startList) / CLOCKS_PER_SEC << " s" << std::endl;
+	std::cout << "Time to process a range of " << _numbersVector.size() << " elements with std::vector : " << double(end - start) / CLOCKS_PER_SEC<< " s" << std::endl;
 };
+
+std::vector<unsigned int>	binaryInsertVector(std::vector<unsigned int> vector, unsigned int value)
+{
+	int	low = 0;
+	int	high = vector.size() - 1;
+	while (low <= high)
+	{
+		int	middle = (low + high) >> 1;
+		if (vector[middle] < value)
+			low = middle + 1;
+		else
+			high = middle - 1;
+	}
+	vector.insert(vector.begin() + low, value);
+	return (vector);
+}
 
 void PmergeMe::sortVector()
 {
@@ -74,7 +116,7 @@ void PmergeMe::sortVector()
 
 	if (this->_numbersVector.size() % 2 == 1)
 	{
-		tmpMax.push_back(*it);
+		tmpMin.push_back(*it);
 		++it;
 	}
 
@@ -99,25 +141,39 @@ void PmergeMe::sortVector()
 			tmpMax.push_back(first);
 		}
 	}
-
 	this->_numbersVector = tmpMax;
-	std::cout << this->_numbersVector.size() << " : size" << std::endl;
-	std::cout << "sortVector:  ";
-	for (std::vector<unsigned int>::iterator it = this->_numbersVector.begin(); it != this->_numbersVector.end(); ++it){
-		std::cout << *it << " ";
-	}
-	std::cout << std::endl;	
 
-	std::cout << "MinVector:  ";
-	for (std::vector<unsigned int>::iterator it = tmpMin.begin(); it != tmpMin.end(); ++it){
-		std::cout << *it << " ";
+	if (this->_numbersVector.size() - 1 > 1)
+		sortVector();
+
+	for (std::vector<unsigned int>::iterator it = tmpMin.begin(); it != tmpMin.end(); ++it)
+		this->_numbersVector = binaryInsertVector(this->_numbersVector, *it);
+}
+
+std::list<unsigned int>	binaryInsert(std::list<unsigned int> list, unsigned int value)
+{
+	int	low = 0;
+	int	high = list.size() - 1;
+	std::list<unsigned int>::iterator it = list.begin();
+	while (low <= high)
+	{
+		it = list.begin();
+		int	middle = (low + high) >> 1;
+		for (int i = 0; i < middle; ++i)
+			++it;
+		if (*it < value)
+			low = middle + 1;
+		else
+			high = middle - 1;
 	}
-	std::cout << std::endl;
+	it = list.begin();
+	for (int i = 0; i < low; i++, it++);
+	list.insert(it, value);
+	return (list);
 }
 
 void PmergeMe::sortList()
 {
-	std::cout << this->_numbersList.size() << " : size begin" << std::endl;
 	std::list<unsigned int> tmpMin;
 	std::list<unsigned int> tmpMax;
 
@@ -150,38 +206,12 @@ void PmergeMe::sortList()
 			tmpMax.push_back(first);
 		}
 	}
-
 	this->_numbersList = tmpMax;
-	std::cout << this->_numbersList.size() << " : size" << std::endl;
-
-
-	std::cout << "sortList:  ";
-	for (std::list<unsigned int>::iterator it = this->_numbersList.begin(); it != this->_numbersList.end(); ++it){
-		std::cout << *it << " ";
-	}
-	std::cout << std::endl;
-
-	std::cout << "Minlist:  ";
-	for (std::list<unsigned int>::iterator it = tmpMin.begin(); it != tmpMin.end(); ++it){
-		std::cout << *it << " ";
-	}
-	std::cout << std::endl;
-	if (this->_numbersList.size() > 1)
+	if (this->_numbersList.size() - 1 > 1)
 		sortList();
-	
-	std::list<unsigned int> tmpIndex;
-	size_t i = 0;
-	while (i < this->_numbersList.size())
-	{
-		if (i % 2 == 0)
-			tmpIndex.insert()
-		/* code */
-	}
-			
 
-	for (std::list<unsigned int>::iterator it = this->_numbersList.begin(); it != this->_numbersList.end(); ++it){
-		std::cout << *it << " ";
-	}	
+	for (std::list<unsigned int>::iterator it = tmpMin.begin(); it != tmpMin.end(); ++it)
+		this->_numbersList = binaryInsert(this->_numbersList, *it);
 }
 
 PmergeMe::~PmergeMe(){};

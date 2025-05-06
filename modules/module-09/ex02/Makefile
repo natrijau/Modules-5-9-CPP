@@ -1,9 +1,9 @@
 EXEC = PmergeMe
-CXX = c++
+CXX = g++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -g
 OBJDIR = obj
 SRCDIR = src
-INCDIR = include/PmergeMe.hpp
+INCDIR = include
 SRC = $(SRCDIR)/main.cpp $(SRCDIR)/PmergeMe.cpp
 OBJ = $(SRC:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
 
@@ -25,3 +25,31 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re
+
+# EXEC = PmergeMe
+# CXX = c++
+# CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -g
+# OBJDIR = obj
+# SRCDIR = src
+# INCDIR = include/PmergeMe.hpp
+# SRC = $(SRCDIR)/main.cpp $(SRCDIR)/PmergeMe.cpp
+# OBJ = $(SRC:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
+
+# $(EXEC): $(OBJ)
+# 	$(CXX) $(CXXFLAGS) $(OBJ) -o $@
+
+# $(OBJDIR)/%.o: $(SRCDIR)/%.cpp $(INCDIR)
+# 	@mkdir -p $(OBJDIR)
+# 	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+# all: $(EXEC)
+
+# clean:
+# 	rm -rf $(OBJDIR)
+
+# fclean: clean
+# 	rm -f $(EXEC)
+
+# re: fclean all
+
+# .PHONY: all clean fclean re
