@@ -107,6 +107,22 @@ std::vector<unsigned int>	binaryInsertVector(std::vector<unsigned int> vector, u
 	return (vector);
 }
 
+std::vector<int> generateJacobsthal(int n)
+{
+	std::vector<int> seq;
+	int a = 0;
+	int	b = 1;
+	while (b <= n)
+	{
+		if (seq.empty() || b != seq.back())
+			seq.push_back(b);
+		int c = b + 2 * a;  // J_n = J_{n-1} + 2 * J_{n-2}
+		a = b;
+		b = c;
+	}
+	return (seq);
+}
+
 void PmergeMe::sortVector()
 {
 	std::vector<unsigned int> tmpMin;
@@ -145,6 +161,32 @@ void PmergeMe::sortVector()
 
 	if (this->_numbersVector.size() - 1 > 1)
 		sortVector();
+
+	/*
+	*/
+	// Calcul de l'ordre d'insertion avec Jacobsthal
+	int mList = tmpMin.size();
+	std::vector<bool> insertedL(mList+1, false);
+	std::vector<int> JL = generateJacobsthal(mList);
+	std::vector<int> orderL;
+	for (int i = (int)JL.size() - 1; i >= 1; --i) {
+		int cur = JL[i];
+		int prev = JL[i-1];
+		for (int k = cur; k > prev; --k) {
+			if (k <= mList && !insertedL[k]) {
+				orderL.push_back(k);
+				insertedL[k] = true;
+			}
+		}
+	}
+	for (int k = mList; k >= 1; --k) {
+		if (!insertedL[k]) {
+			orderL.push_back(k);
+		}
+	}
+	
+	/*
+	*/
 
 	for (std::vector<unsigned int>::iterator it = tmpMin.begin(); it != tmpMin.end(); ++it)
 		this->_numbersVector = binaryInsertVector(this->_numbersVector, *it);
