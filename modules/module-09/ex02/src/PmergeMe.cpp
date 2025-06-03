@@ -27,16 +27,24 @@ static bool allIntegerPositiv(char **av)
 }
 
 void PmergeMe::addNumbersList(char **av)
-{
+{	
 	for (size_t i = 1; av[i]; i++){
-		char *endptr;
-		this->_numbersList.push_back((int)std::strtoll(av[i], &endptr, 10));
+		if (av[i + 1]){
+			this->_numbersList.push_back(std::make_pair((int)std::strtoll(av[i], NULL, 10), (int)std::strtoll(av[i + 1], NULL, 10)));
+			i++;
+		}
+		else
+			this->_numbersList.push_back(std::make_pair(-1, (int)std::strtoll(av[i], NULL, 10)));
 	}
-	//std::cout << "Before:  ";
-	//for (std::list<unsigned int>::iterator it = this->_numbersList.begin(); it != this->_numbersList.end(); ++it){
-    //    std::cout << *it << " ";
-    //}
-	//std::cout << std::endl;
+	std::cout << "Before:  ";
+	for (std::list<std::pair<int, int> >::iterator it = this->_numbersList.begin() ; it != _numbersList.end() ; it++)
+	{
+		if (it->first < 0)
+			std::cout << it->second;
+		else		
+			std::cout << it->first << " " << it->second << " ";
+	}
+	std::cout << std::endl;
 }
 
 void PmergeMe::addNumbersVector(char **av)
@@ -186,6 +194,7 @@ void PmergeMe::sortVector()
 	}
 	
 	/*
+
 	*/
 
 	for (std::vector<unsigned int>::iterator it = tmpMin.begin(); it != tmpMin.end(); ++it)
@@ -216,44 +225,51 @@ std::list<unsigned int>	binaryInsert(std::list<unsigned int> list, unsigned int 
 
 void PmergeMe::sortList()
 {
+	std::list<std::pair<int, int> >::iterator it = this->_numbersList.begin();
+	for (; it != _numbersList.end() ; it++)
+	{
+		std::cout << " " << it->first << " " << it->second << std::endl;
+		/* code */
+	}
+	
 	std::list<unsigned int> tmpMin;
 	std::list<unsigned int> tmpMax;
 
-	std::list<unsigned int>::iterator it = this->_numbersList.begin();
+	//std::list<unsigned int>::iterator it = this->_numbersList.begin();
 
-	if (this->_numbersList.size() % 2 == 1)
-	{
-		tmpMin.push_back(*it);
-		it = this->_numbersList.erase(it);
-	}
+	//if (this->_numbersList.size() % 2 == 1)
+	//{
+	//	tmpMin.push_back(*it);
+	//	it = this->_numbersList.erase(it);
+	//}
 
-	while (it != this->_numbersList.end())
-	{
-		unsigned int first = *it++;
-		if (it == this->_numbersList.end())
-		{
-			tmpMax.push_back(first);
-			break;
-		}
-		unsigned int second = *it++;
+	//while (it != this->_numbersList.end())
+	//{
+	//	unsigned int first = *it++;
+	//	if (it == this->_numbersList.end())
+	//	{
+	//		tmpMax.push_back(first);
+	//		break;
+	//	}
+	//	unsigned int second = *it++;
 
-		if (first < second)
-		{
-			tmpMin.push_back(first);
-			tmpMax.push_back(second);
-		}
-		else
-		{
-			tmpMin.push_back(second);
-			tmpMax.push_back(first);
-		}
-	}
-	this->_numbersList = tmpMax;
-	if (this->_numbersList.size() - 1 > 1)
-		sortList();
+	//	if (first < second)
+	//	{
+	//		tmpMin.push_back(first);
+	//		tmpMax.push_back(second);
+	//	}
+	//	else
+	//	{
+	//		tmpMin.push_back(second);
+	//		tmpMax.push_back(first);
+	//	}
+	//}
+	//this->_numbersList = tmpMax;
+	//if (this->_numbersList.size() - 1 > 1)
+	//	sortList();
 
-	for (std::list<unsigned int>::iterator it = tmpMin.begin(); it != tmpMin.end(); ++it)
-		this->_numbersList = binaryInsert(this->_numbersList, *it);
+	//for (std::list<unsigned int>::iterator it = tmpMin.begin(); it != tmpMin.end(); ++it)
+	//	this->_numbersList = binaryInsert(this->_numbersList, *it);
 }
 
 PmergeMe::~PmergeMe(){};

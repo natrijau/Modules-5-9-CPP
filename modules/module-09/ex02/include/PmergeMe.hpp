@@ -3,6 +3,7 @@
 
 #include	<iostream>
 #include	<algorithm>
+#include	<utility>
 #include	<list>
 #include	<vector>
 #include	<ctime>
@@ -10,7 +11,8 @@
 class PmergeMe
 {
 	private:
-		std::list<unsigned int> _numbersList;
+		//std::list<unsigned int> _numbersList;
+		std::list<std::pair<int, int> > _numbersList;
 		std::vector<unsigned int> _numbersVector;
 		PmergeMe();
 	public:
