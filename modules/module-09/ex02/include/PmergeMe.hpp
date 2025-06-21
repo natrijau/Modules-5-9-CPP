@@ -11,9 +11,8 @@
 class PmergeMe
 {
 	private:
-		//std::list<unsigned int> _numbersList;
-		std::list<std::pair<int, int> > _numbersList;
-		std::vector<unsigned int> _numbersVector;
+		std::list<std::list<int> > _numbersList;
+		std::vector<std::vector<int> > _numbersVector;
 		PmergeMe();
 	public:
 		PmergeMe(char **av);
@@ -21,10 +20,8 @@ class PmergeMe
 
 		void 	addNumbersList(char **av);
 		void 	addNumbersVector(char **av);
-		void	sortList();
-		void	sortVector();
-
-		//unsigned int &operator[](unsigned int i);
+		std::list<std::list<int> >	sortList(std::list<std::list<int> > &list);
+		std::vector<std::vector<int> > sortVector(std::vector<std::vector<int> > &vec);
 };
 
 

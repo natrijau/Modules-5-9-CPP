@@ -1,275 +1,398 @@
-#include	"../include/PmergeMe.hpp"
+#include "../include/PmergeMe.hpp"
+#include <iostream>
+#include <list>
+#include <vector>
+#include <cstdlib>
+#include <stdexcept>
+#include <ctime>
+#include <cmath>
 
-static bool strIntegerPositiv(char *str)
-{
-	if (!str || str[0] == '\0')
-		return (false);
+static	int	DEBUG_MODE = 0;
 
-	for (size_t i = 0; str[i]; i++){
-		if (!std::isdigit(str[i]))
-			return (false);
+
+// Pour les couleurs
+const char* RESET = "\033[0m";
+const char* RED = "\033[31m";
+const char* GREEN = "\033[32m";
+const char* YELLOW = "\033[33m";
+const char* BLUE = "\033[34m";
+const char* MAGENTA = "\033[35m";
+const char* CYAN = "\033[36m";
+
+static void printList(const std::list<std::list<int> > &list) {
+	int i = 0;
+	for (std::list<std::list<int> >::const_iterator it = list.begin(); it != list.end(); ++it , i++) {
+		std::cout << CYAN << "( ";
+		for (std::list<int>::const_iterator itList = it->begin(); itList != it->end(); ++itList) {
+			std::cout << *itList << " ";
+		}
+		if (i == 50){
+			std::cout << "[...]";
+			break;
+		}
+
+		std::cout << ")" << RESET;
 	}
+	std::cout << std::endl;
+}
 
+static void printVector(const std::vector<std::vector<int> > &vec) {
+    for (size_t i = 0; i < vec.size(); ++i) {
+		std::cout << CYAN << "( ";
+        for (size_t j = 0; j < vec[i].size(); ++j) {
+            std::cout << vec[i][j] << " ";
+        }
+		if (i == 50){
+			std::cout << "[...]";
+			break;
+		}
+		std::cout << ")" << RESET;
+    }
+    std::cout << std::endl;
+}
+
+static bool strIntegerPositiv(char *str) {
+	if (!str || str[0] == '\0')
+		return false;
+	for (size_t i = 0; str[i]; i++) {
+		if (!std::isdigit(str[i]))
+			return false;
+	}
 	char *endptr;
 	long long integer = std::strtoll(str, &endptr, 10);
 	if (integer > 2147483647 || integer < 0 || *endptr != '\0')
-		return (false);
-	return (true);
+		return false;
+	return true;
 }
 
-static bool allIntegerPositiv(char **av)
-{
-	for (size_t i = 1; av[i]; i++){
+static bool allIntegerPositiv(char **av) {
+	for (size_t i = 1; av[i]; i++) {
 		if (!strIntegerPositiv(av[i]))
-			return (false);
+			return false;
 	}
-	return (true);
+	return true;
 }
 
-void PmergeMe::addNumbersList(char **av)
-{	
-	for (size_t i = 1; av[i]; i++){
-		if (av[i + 1]){
-			this->_numbersList.push_back(std::make_pair((int)std::strtoll(av[i], NULL, 10), (int)std::strtoll(av[i + 1], NULL, 10)));
-			i++;
-		}
-		else
-			this->_numbersList.push_back(std::make_pair(-1, (int)std::strtoll(av[i], NULL, 10)));
-	}
-	std::cout << "Before:  ";
-	for (std::list<std::pair<int, int> >::iterator it = this->_numbersList.begin() ; it != _numbersList.end() ; it++)
-	{
-		if (it->first < 0)
-			std::cout << it->second;
-		else		
-			std::cout << it->first << " " << it->second << " ";
-	}
-	std::cout << std::endl;
-}
-
-void PmergeMe::addNumbersVector(char **av)
-{
-	for (size_t i = 1; av[i]; i++){
+void PmergeMe::addNumbersList(char **av) {
+	std::cout << "Before: ";
+	for (size_t i = 1; av[i]; i++) {
+		std::list<int> tmp;
 		char *endptr;
-		this->_numbersVector.push_back((int)std::strtoll(av[i], &endptr, 10));
-	}
-	int	i = 0;
-	std::cout << "Before:  ";
-	for (std::vector<unsigned int>::iterator it = this->_numbersVector.begin(); it != this->_numbersVector.end(); ++it , i++){
-		if (i > 50)
-		{
+		tmp.push_back((int)std::strtoll(av[i], &endptr, 10));
+		if (i < 50)
+			std::cout << av[i] << " ";
+		if (i == 50)
 			std::cout << "[...]";
-			break;
-		}
-        std::cout << *it << " ";
-    }
+		this->_numbersList.push_back(tmp);
+	}
 	std::cout << std::endl;
 }
 
-PmergeMe::PmergeMe(char **av)
-{
+void PmergeMe::addNumbersVector(char **av) {
+	std::cout << "Before: ";
+	for (size_t i = 1; av[i]; i++) {
+		std::vector<int> tmp;
+		char *endptr;
+		tmp.push_back((int)std::strtoll(av[i], &endptr, 10));
+		if (i < 50)
+			std::cout << av[i] << " ";
+		if (i == 50)
+			std::cout << "[...]";
+		this->_numbersVector.push_back(tmp);
+	}
+	std::cout << std::endl;
+}
+
+PmergeMe::PmergeMe(char **av) {
 	if (!allIntegerPositiv(av))
-		throw std::runtime_error("Error : one of the arguments is not a positive integer or exceeds the maximum integer !");
-		//throw std::runtime_error("Error");
+		throw std::runtime_error("Error: one of the arguments is not a positive integer or exceeds the maximum integer!");
 	addNumbersList(av);
 	addNumbersVector(av);
 	if (this->_numbersList.size() < 2)
-		throw	std::runtime_error("Invalid number of integers to sort");
+		throw std::runtime_error("Invalid number of integers to sort");
 
 	std::clock_t startList = clock();
-	sortList();
-	clock_t endList = clock();
+	//_numbersList = sortList(_numbersList);
+	std::clock_t endList = clock();
 
-	clock_t start = clock();
-	sortVector();
-	clock_t end = clock();
+	std::clock_t start = clock();
+	_numbersVector = sortVector(_numbersVector);
+	std::clock_t end = clock();
 
-	int	i = 0;
-	std::cout << "After:  ";
-	for (std::vector<unsigned int>::iterator it = this->_numbersVector.begin(); it != this->_numbersVector.end(); ++it, i++){
-		if (i > 50)
-		{
-			std::cout << "[...]";
-			break;
-		}
-		std::cout << *it << " ";
-	}
+
 	std::cout << std::endl;
-	std::cout << "Time to process a range of " << _numbersList.size() << " elements with std::list : " << double(endList - startList) / CLOCKS_PER_SEC << " s" << std::endl;
-	std::cout << "Time to process a range of " << _numbersVector.size() << " elements with std::vector : " << double(end - start) / CLOCKS_PER_SEC<< " s" << std::endl;
-};
+	std::cout << "After :" << std::endl;
+	printVector(_numbersVector);
+	//printList(_numbersList);
 
-std::vector<unsigned int>	binaryInsertVector(std::vector<unsigned int> vector, unsigned int value)
-{
-	int	low = 0;
-	int	high = vector.size() - 1;
-	while (low <= high)
-	{
-		int	middle = (low + high) >> 1;
-		if (vector[middle] < value)
-			low = middle + 1;
-		else
-			high = middle - 1;
-	}
-	vector.insert(vector.begin() + low, value);
-	return (vector);
+	std::cout << "Time to process a range of " << _numbersList.size() << " elements with std::list: " << double(endList - startList) / CLOCKS_PER_SEC << " s" << std::endl;
+	std::cout << "Time to process a range of " << _numbersVector.size() << " elements with std::vector: " << double(end - start) / CLOCKS_PER_SEC << " s" << std::endl;
 }
 
-std::vector<int> generateJacobsthal(int n)
-{
-	std::vector<int> seq;
-	int a = 0;
-	int	b = 1;
-	while (b <= n)
-	{
-		if (seq.empty() || b != seq.back())
-			seq.push_back(b);
-		int c = b + 2 * a;  // J_n = J_{n-1} + 2 * J_{n-2}
-		a = b;
-		b = c;
+static void insertElementsList(std::list<std::list<int> > &pend, std::list<std::list<int> > &main) {
+	static const size_t jacobsthal[] = {0, 1, 3, 5, 11, 21, 43, 85, 171, 341, 683, 1365, 2731, 5461, 10923, 21845, 43691, 87381, 174763, 349525, 699051, 1398101, 2796203, 5592405, 11184811, 22369621, 44739243, 89478485, 178956971, 357913941, 715827883, 1431655765, 2863311531};
+	for (size_t i = 1; jacobsthal[i] < pend.size() && jacobsthal[i] != 0; ++i) {
+		size_t index = jacobsthal[i];
+		if (index >= pend.size()) {
+			index = pend.size() - 1;
+		}
+
+		std::list<std::list<int> >::iterator it = pend.begin();
+		std::advance(it, index);
+		std::list<int> element = *it;
+		pend.erase(it);
+
+		std::list<std::list<int> >::iterator pos = main.begin();
+		while (pos != main.end() && *(--(pos->end())) < *(--(element.end()))) {
+			++pos;
+		}
+		main.insert(pos, element);
 	}
-	return (seq);
+
+	while (!pend.empty()) {
+		std::list<int> element = pend.front();
+		pend.pop_front();
+		std::list<std::list<int> >::iterator pos = main.begin();
+		while (pos != main.end() && *(--(pos->end())) < *(--(element.end()))) {
+			++pos;
+		}
+		main.insert(pos, element);
+	}
 }
 
-void PmergeMe::sortVector()
-{
-	std::vector<unsigned int> tmpMin;
-	std::vector<unsigned int> tmpMax;
+static void insertElementsVector(std::vector<std::vector<int> > &pend, std::vector<std::vector<int> > &main) {
+    static const size_t jacobsthal[] = {
+        0, 1, 3, 5, 11, 21, 43, 85,
+        171, 341, 683, 1365, 2731, 5461,
+        10923, 21845, 43691, 87381, 174763,
+        349525, 699051, 1398101, 2796203,
+        5592405, 11184811, 22369621, 44739243,
+        89478485, 178956971
+    };
 
-	std::vector<unsigned int>::iterator it = this->_numbersVector.begin();
+    std::vector<bool> used(pend.size(), false);
 
-	if (this->_numbersVector.size() % 2 == 1)
-	{
-		tmpMin.push_back(*it);
-		++it;
+    for (size_t i = 1; jacobsthal[i] < pend.size(); ++i) {
+        size_t index = jacobsthal[i];
+        if (index >= pend.size())
+            break;
+        if (used[index])
+            continue;
+        used[index] = true;
+
+        std::vector<int> element = pend[index];
+        std::vector<std::vector<int> >::iterator pos = main.begin();
+        while (pos != main.end() && pos->back() < element.back())
+            ++pos;
+        main.insert(pos, element);
+    }
+
+    for (size_t i = 0; i < pend.size(); ++i) {
+        if (used[i])
+            continue;
+        std::vector<int> element = pend[i];
+        std::vector<std::vector<int> >::iterator pos = main.begin();
+        while (pos != main.end() && pos->back() < element.back())
+            ++pos;
+        main.insert(pos, element);
+    }
+}
+
+static std::list<std::list<int> > unpairList(std::list<std::list<int> > &original) {
+	std::list<std::list<int> > result;
+	for (std::list<std::list<int> >::iterator it = original.begin(); it != original.end(); ++it) {
+		std::list<int> firstHalf, secondHalf;
+		size_t mid = it->size() / 2;
+		size_t i = 0;
+		for (std::list<int>::iterator jt = it->begin(); jt != it->end(); ++jt, ++i) {
+			if (i < mid)
+				firstHalf.push_back(*jt);
+			else
+				secondHalf.push_back(*jt);
+		}
+		if (!firstHalf.empty())
+			result.push_back(firstHalf);
+		if (!secondHalf.empty())
+			result.push_back(secondHalf);
+	}
+	return result;
+}
+
+static std::vector<std::vector<int> > unpairVector(std::vector<std::vector<int> > &original) {
+    std::vector<std::vector<int> > result;
+
+    for (std::vector<std::vector<int> >::iterator it = original.begin(); it != original.end(); ++it) {
+        std::vector<int> firstHalf, secondHalf;
+        size_t mid = it->size() / 2;
+
+        for (size_t i = 0; i < it->size(); ++i) {
+            if (i < mid)
+                firstHalf.push_back((*it)[i]);
+            else
+                secondHalf.push_back((*it)[i]);
+        }
+
+        if (!firstHalf.empty())
+            result.push_back(firstHalf);
+        if (!secondHalf.empty())
+            result.push_back(secondHalf);
+    }
+
+    return result;
+}
+
+std::vector<std::vector<int> > PmergeMe::sortVector(std::vector<std::vector<int> > &vec) {
+	if (vec.size() <= 1)
+		return vec;
+
+	std::vector<std::vector<int> > main;
+	std::vector<std::vector<int> > pend;
+	std::vector<std::vector<int> > last;
+
+	size_t i = 0;
+	while (i < vec.size()) {
+		std::vector<int> first = vec[i++];
+		if (i < vec.size()) {
+			std::vector<int> second = vec[i++];
+			int nb1 = first.back();
+			int nb2 = second.back();
+			if (nb2 < nb1)
+				std::swap(first, second);
+			first.insert(first.end(), second.begin(), second.end());
+			main.push_back(first);
+		} else {
+			last.push_back(first);
+		}
 	}
 
-	while (it != this->_numbersVector.end())
-	{
-		unsigned int first = *it++;
-		if (it == this->_numbersVector.end())
-		{
-			tmpMax.push_back(first);
-			break;
-		}
-		unsigned int second = *it++;
+	if (DEBUG_MODE == 1) {
+		std::cout << MAGENTA << "(Post recursiv) Main after pairing: " << RESET;
+		printVector(main);
+		std::cout << MAGENTA << "(Post recursiv) Last after pairing: " << RESET;
+		printVector(last);
+		std::cout << "\n";
+	}
 
-		if (first < second)
-		{
-			tmpMin.push_back(first);
-			tmpMax.push_back(second);
-		}
+	if (main.size() > 1)
+		main = sortVector(main);
+	main = unpairVector(main);
+
+	std::vector<std::vector<int> > filteredMain;
+	for (size_t j = 0; j < main.size(); ++j) {
+		if (j % 2 == 0 && j >= 2)
+			pend.push_back(main[j]);
 		else
-		{
-			tmpMin.push_back(second);
-			tmpMax.push_back(first);
-		}
+			filteredMain.push_back(main[j]);
 	}
-	this->_numbersVector = tmpMax;
+	main = filteredMain;
 
-	if (this->_numbersVector.size() - 1 > 1)
-		sortVector();
+	if (DEBUG_MODE == 1) {
+		std::cout << std::endl;
+		std::cout << YELLOW << "(after recursiv) Main before insert: " << RESET;
+		printVector(main);
+		std::cout << YELLOW << "(after recursiv) Pend before insert: " << RESET;
+		printVector(pend);
+		std::cout << YELLOW << "(after recursiv) last before insert: " << RESET;
+		printVector(last);
+	}
+	
+	insertElementsVector(pend, main);
+	insertElementsVector(last, main);
 
-	/*
-	*/
-	// Calcul de l'ordre d'insertion avec Jacobsthal
-	int mList = tmpMin.size();
-	std::vector<bool> insertedL(mList+1, false);
-	std::vector<int> JL = generateJacobsthal(mList);
-	std::vector<int> orderL;
-	for (int i = (int)JL.size() - 1; i >= 1; --i) {
-		int cur = JL[i];
-		int prev = JL[i-1];
-		for (int k = cur; k > prev; --k) {
-			if (k <= mList && !insertedL[k]) {
-				orderL.push_back(k);
-				insertedL[k] = true;
+	if (DEBUG_MODE == 1) {
+		std::cout << std::endl;
+		std::cout << BLUE << "(after depaired) Main: " << RESET;
+		printVector(main);
+		std::cout << BLUE << "(after depaired) Pend: " << RESET;
+		printVector(pend);
+		std::cout << BLUE << "(after depaired) Last: " << RESET;
+		printVector(last);
+	}
+
+	return main;
+}
+
+std::list<std::list<int> > PmergeMe::sortList(std::list<std::list<int> > &list) {
+	if (list.size() <= 1)
+		return list;
+	std::list<std::list<int> > main;
+	std::list<std::list<int> > pend;
+	std::list<std::list<int> > last;
+	std::list<std::list<int> >::iterator it = list.begin();
+	while (it != list.end() && list.size() > 1) {
+		std::list<std::list<int> >::iterator first = it++;
+		if (it != list.end()) {
+			std::list<std::list<int> >::iterator second = it++;
+			int nb1 = *(--(first->end()));
+			int nb2 = *(--(second->end()));
+			if (nb2 < nb1) {
+				std::iter_swap(first, second);
 			}
+			first->splice(first->end(), *second);
+			main.push_back(*first);
+		} else {
+			last.push_back(*first);
 		}
 	}
-	for (int k = mList; k >= 1; --k) {
-		if (!insertedL[k]) {
-			orderL.push_back(k);
+
+	if (DEBUG_MODE == 1) {
+		std::cout << MAGENTA << "(Post recursiv) Main after pairing: " << RESET;
+		printList(main);
+		std::cout << MAGENTA << "(Post recursiv) Last after pairing: " << RESET;
+		printList(last);
+		std::cout << "\n";
+	}
+
+	if (main.size() > 1)
+		main = sortList(main);
+	
+	//	desappairer main
+	main = unpairList(main);
+
+	std::list<std::list<int> >::iterator test = main.begin();
+	std::list<std::list<std::list<int> >::iterator> toErase;
+
+	// constitution du pend a partir du main
+	for (size_t i = 0; i < main.size(); i++, test++) {
+		if (i % 2 == 0 && i >= 2) {
+			pend.push_back(*test);
+			toErase.push_back(test);
 		}
 	}
-	
-	/*
 
-	*/
-
-	for (std::vector<unsigned int>::iterator it = tmpMin.begin(); it != tmpMin.end(); ++it)
-		this->_numbersVector = binaryInsertVector(this->_numbersVector, *it);
-}
-
-std::list<unsigned int>	binaryInsert(std::list<unsigned int> list, unsigned int value)
-{
-	int	low = 0;
-	int	high = list.size() - 1;
-	std::list<unsigned int>::iterator it = list.begin();
-	while (low <= high)
-	{
-		it = list.begin();
-		int	middle = (low + high) >> 1;
-		for (int i = 0; i < middle; ++i)
-			++it;
-		if (*it < value)
-			low = middle + 1;
-		else
-			high = middle - 1;
+	// Filtrer les éléments de main pour ne garder que ceux à insérer
+	for (std::list<std::list<std::list<int> >::iterator>::iterator it = toErase.begin(); it != toErase.end(); ++it) {
+		main.erase(*it);
 	}
-	it = list.begin();
-	for (int i = 0; i < low; i++, it++);
-	list.insert(it, value);
-	return (list);
-}
 
-void PmergeMe::sortList()
-{
-	std::list<std::pair<int, int> >::iterator it = this->_numbersList.begin();
-	for (; it != _numbersList.end() ; it++)
+	if (DEBUG_MODE == 1) {
+		std::cout << std::endl;
+		std::cout << YELLOW << "(after recursiv) Main before insert: " << RESET;
+		printList(main);
+		std::cout << YELLOW << "(after recursiv) Pend before insert: " << RESET;
+		printList(pend);
+		std::cout << YELLOW << "(after recursiv) last before insert: " << RESET;
+		printList(last);
+	}
+
+	if (pend.size() == 0 && last.size() == 0)
+		return main;
+
+	insertElementsList(pend, main);
+	insertElementsList(last, main);
+
+	if (DEBUG_MODE == 1	)
 	{
-		std::cout << " " << it->first << " " << it->second << std::endl;
-		/* code */
+		std::cout << std::endl;
+		std::cout << BLUE << "(after depaired) Main: " << RESET;
+		printList(main);
+		std::cout << BLUE << "(after depaired) Pend: " << RESET;
+		printList(pend);
+		std::cout << BLUE << "(after depaired) Last: " << RESET;
+		printList(last);
 	}
 	
-	std::list<unsigned int> tmpMin;
-	std::list<unsigned int> tmpMax;
-
-	//std::list<unsigned int>::iterator it = this->_numbersList.begin();
-
-	//if (this->_numbersList.size() % 2 == 1)
-	//{
-	//	tmpMin.push_back(*it);
-	//	it = this->_numbersList.erase(it);
-	//}
-
-	//while (it != this->_numbersList.end())
-	//{
-	//	unsigned int first = *it++;
-	//	if (it == this->_numbersList.end())
-	//	{
-	//		tmpMax.push_back(first);
-	//		break;
-	//	}
-	//	unsigned int second = *it++;
-
-	//	if (first < second)
-	//	{
-	//		tmpMin.push_back(first);
-	//		tmpMax.push_back(second);
-	//	}
-	//	else
-	//	{
-	//		tmpMin.push_back(second);
-	//		tmpMax.push_back(first);
-	//	}
-	//}
-	//this->_numbersList = tmpMax;
-	//if (this->_numbersList.size() - 1 > 1)
-	//	sortList();
-
-	//for (std::list<unsigned int>::iterator it = tmpMin.begin(); it != tmpMin.end(); ++it)
-	//	this->_numbersList = binaryInsert(this->_numbersList, *it);
+	return main;
 }
 
-PmergeMe::~PmergeMe(){};
+PmergeMe::~PmergeMe() {}
