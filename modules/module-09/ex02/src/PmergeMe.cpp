@@ -74,7 +74,6 @@ static bool allIntegerPositiv(char **av) {
 }
 
 void PmergeMe::addNumbersList(char **av) {
-	std::cout << "Before: ";
 	for (size_t i = 1; av[i]; i++) {
 		std::list<int> tmp;
 		char *endptr;
@@ -89,44 +88,55 @@ void PmergeMe::addNumbersList(char **av) {
 }
 
 void PmergeMe::addNumbersVector(char **av) {
-	std::cout << "Before: ";
+	std::cout << "Before :   ";
 	for (size_t i = 1; av[i]; i++) {
 		std::vector<int> tmp;
 		char *endptr;
 		tmp.push_back((int)std::strtoll(av[i], &endptr, 10));
 		if (i < 50)
-			std::cout << av[i] << " ";
+			std::cout << RED <<  av[i] << " ";
 		if (i == 50)
 			std::cout << "[...]";
 		this->_numbersVector.push_back(tmp);
 	}
-	std::cout << std::endl;
+	std::cout << std::endl << RESET;
+}
+
+double getTimeMicroseconds() {
+	return static_cast<double>(std::clock()) * 1e6 / CLOCKS_PER_SEC;
 }
 
 PmergeMe::PmergeMe(char **av) {
 	if (!allIntegerPositiv(av))
 		throw std::runtime_error("Error: one of the arguments is not a positive integer or exceeds the maximum integer!");
+
+	double startList = getTimeMicroseconds();
 	addNumbersList(av);
-	addNumbersVector(av);
 	if (this->_numbersList.size() < 2)
-		throw std::runtime_error("Invalid number of integers to sort");
+		throw std::runtime_error("Invalid number of integers to sort");	
+	_numbersList = sortList(_numbersList);
+	double endList = getTimeMicroseconds();
 
-	std::clock_t startList = clock();
-	//_numbersList = sortList(_numbersList);
-	std::clock_t endList = clock();
-
-	std::clock_t start = clock();
+	double start = getTimeMicroseconds();
+	addNumbersVector(av);
 	_numbersVector = sortVector(_numbersVector);
-	std::clock_t end = clock();
-
-
+	double end = getTimeMicroseconds();
+	
+	std::cout << GREEN << std::endl << "After :   ";
+	int i = 0;
+	for (std::list<std::list<int> >::const_iterator it = _numbersList.begin(); it != _numbersList.end(); ++it , i++) {
+		for (std::list<int>::const_iterator itList = it->begin(); itList != it->end(); ++itList) {
+			std::cout << *itList << " ";
+		}
+		if (i == 50){
+			std::cout << "[...]";
+			break;
+		}
+	}
 	std::cout << std::endl;
-	std::cout << "After :" << std::endl;
-	printVector(_numbersVector);
-	//printList(_numbersList);
 
-	std::cout << "Time to process a range of " << _numbersList.size() << " elements with std::list: " << double(endList - startList) / CLOCKS_PER_SEC << " s" << std::endl;
-	std::cout << "Time to process a range of " << _numbersVector.size() << " elements with std::vector: " << double(end - start) / CLOCKS_PER_SEC << " s" << std::endl;
+	std::cout << RESET << std::fixed << std::setprecision(5) <<  "Time to process a range of " << _numbersList.size() << " elements with std::list: " << (endList - startList) << " us" << std::endl;
+	std::cout << std::fixed << std::setprecision(5) <<  "Time to process a range of " << _numbersVector.size() << " elements with std::vector: " << (end - start) << " us" << std::endl;
 }
 
 static void insertElementsList(std::list<std::list<int> > &pend, std::list<std::list<int> > &main) {
@@ -161,14 +171,7 @@ static void insertElementsList(std::list<std::list<int> > &pend, std::list<std::
 }
 
 static void insertElementsVector(std::vector<std::vector<int> > &pend, std::vector<std::vector<int> > &main) {
-    static const size_t jacobsthal[] = {
-        0, 1, 3, 5, 11, 21, 43, 85,
-        171, 341, 683, 1365, 2731, 5461,
-        10923, 21845, 43691, 87381, 174763,
-        349525, 699051, 1398101, 2796203,
-        5592405, 11184811, 22369621, 44739243,
-        89478485, 178956971
-    };
+	static const size_t jacobsthal[] = {0, 1, 3, 5, 11, 21, 43, 85, 171, 341, 683, 1365, 2731, 5461, 10923, 21845, 43691, 87381, 174763, 349525, 699051, 1398101, 2796203, 5592405, 11184811, 22369621, 44739243, 89478485, 178956971, 357913941, 715827883, 1431655765, 2863311531};
 
     std::vector<bool> used(pend.size(), false);
 
@@ -231,7 +234,6 @@ static std::vector<std::vector<int> > unpairVector(std::vector<std::vector<int> 
             else
                 secondHalf.push_back((*it)[i]);
         }
-
         if (!firstHalf.empty())
             result.push_back(firstHalf);
         if (!secondHalf.empty())
