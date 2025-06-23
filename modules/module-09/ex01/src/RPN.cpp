@@ -57,7 +57,7 @@ RPN::RPN(char *expr)
 	}
 	if (this->_stack.size() != 1)
 		throw	std::runtime_error("Error");
-	std::cout << result << std::endl; 
+	std::cout << result << std::endl;
 };
 
 RPN::~RPN(){};
