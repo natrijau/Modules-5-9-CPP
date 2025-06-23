@@ -17,3 +17,11 @@ int	main(int ac, char **av)
 	}
 	return (0);
 }
+
+// a tester 
+// ./RPN "8 9 + 1 7 - *"
+/*
+./RPN " 12 3 +"
+./RPN "3 +"
+./RPN "3 0 /"
+*/
